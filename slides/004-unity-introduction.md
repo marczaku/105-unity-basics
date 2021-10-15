@@ -23,6 +23,8 @@ You will be greated by this beautiful monster:
 
 - Where to begin?
 
+### Window Title
+
 Actually, the title of the Window is a good start! Let's have a look:
 
 <img width="741" alt="image" src="https://user-images.githubusercontent.com/7360266/137401573-99c5de93-95e6-4e1c-b9c1-3eb5d6067471.png">
@@ -41,6 +43,65 @@ That's a lot of information, but what does it mean?
 ## Dockable Window System
 
 Unity's Editor comes with a Dockable Window System. Every Window can be:
-<img width="400" alt="image" src="https://media1.giphy.com/media/jNI34zkXlcOmLHVZsM/giphy.gif?cid=790b76116c86f582f2ade70a35fd080a30471793a8bd1866&rid=giphy.gif&ct=g"> | Freely moved around by clicking on the title, keeping the mouse button down, and then dragging the Window anywhere you want.
+<img width="400" alt="image" src="https://media1.giphy.com/media/jNI34zkXlcOmLHVZsM/giphy.gif"> | Freely moved around by clicking on the title, keeping the mouse button down, and then dragging the Window anywhere you want.
 --------------- | -----------------
-<img width="400" alt="image" src="https://media0.giphy.com/media/LVAtcP3iwrRPuEmApG/giphy.gif?cid=790b76113f1e0c7cf3cd871025dcfc7cce39417a4573dfff&rid=giphy.gif&ct=g"> | Maximized, if you need a little extra space, by rightclicking the window title and selecting Maximize, or by simply double-clicking the title. This can be undone the same way.
+<img width="400" alt="image" src="https://media0.giphy.com/media/LVAtcP3iwrRPuEmApG/giphy.gif"> | Maximized, if you need a little extra space, by rightclicking the window title and selecting Maximize, or by simply double-clicking the title. This can be undone the same way.
+<img width="400" alt="image" src="https://media0.giphy.com/media/378qi05vuZvXn8KJyQ/giphy.gif"> | Closed and also Opened again using the Rightclick Context-Menu.
+<img width="400" alt="image" src="https://media3.giphy.com/media/vMIMQZyejtB7zVuffc/giphy.gif"> | Undocked and Docked again. If you Undock  Window, it comes a freely floating Window that you can place anywhere on your Screen(s).
+<img width="400" alt="image" src="https://media1.giphy.com/media/7Zi3dvgM6RukyTOKms/giphy.gif"> | Resized by Dragging the Window Frames.
+<img width="400" alt="image" src="https://media3.giphy.com/media/vMIMQZyejtB7zVuffc/giphy.gif"> | Undocked and Docked again. If you Undock  Window, it comes a freely floating Window that you can place anywhere on your Screen(s).
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/7360266/137455112-82a9b967-3697-43c4-83d3-f5541ef5437a.png"> | You can find more Windows and more Window Functions in Unity's Menu-Bar's Window-Menu.
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/7360266/137456577-1dbba24b-96a8-48e8-8dcc-2bca0a6013ad.png"> | Very Useful: You can Use the Menu Window > Layouts to Save and Restore your Favorite Layouts. This is especially useful, if you have a few Layouts for different purposes (like Level-Editing, Debugging or Creating UIs), or if you messed up your Layout by Accident and want to reset it.
+
+Next, we will take a look at the most important Windows and how they contribute to our Unity Project.
+
+## Project
+
+The Project Window is the heart of our Project. It contains an overview of all Assets and Packages.
+
+<img width="585" alt="image" src="https://user-images.githubusercontent.com/7360266/137457495-74a349a6-42cc-473f-a8aa-66cf084b731b.png">
+
+### Looks
+
+First things first, I highly recommend making the Project-Window into its own docking field and switching it to One-Column-Layout. The reasons:
+- Programmers are more interested in File-Names and File-Types
+  - than in the looks of a File. 
+- Large Icons cut off File Names
+  - `Enemy_Zombie_Attack_Animation_1.png` becomes `Enem...on_1.png`
+- There is new Space which will allow us to always keep an Eye on the Console.
+  - The Console shows us Warnings and Errors, which we need to notice and fix ASAP!
+
+If you ever find yourself searching for an Image whose File Name you don't know, you may temporarily switch to a Two-Column Layout again. But as a Programmer during most of your tasks, you won't need Large Icons, really.
+
+### Assets
+
+To explain, what the Assets-Folder shows, let's compare the Assets-Window of a small project:
+
+<img width="471" alt="image" src="https://user-images.githubusercontent.com/7360266/137536146-43b9652e-d9c6-43e0-9eb4-9ea20b10aa8b.png">
+
+With the contents of our Unity's Project-Folder. To find our Unity-Project-Folder, we can simply right-click on `Assets` and select `Reveal in Finder` (`Show in Explorer` on Windows) to open the Directory in our File-Explorer.
+
+<img width="629" alt="image" src="https://user-images.githubusercontent.com/7360266/137536528-e358911f-b2cb-4304-bf64-1552df34f170.png">
+
+Now, in this folder, you'll find exactly the same Folders and Files as in the Project-Window's Assets-Browser. Additionally, you'll find a lot of `.meta`-Files, which we will get to later.\
+So basically, the Project-View shows us all the Files, named Assets, that are part of our Project. It Reflects the files that are on our Hard Drive as well.\
+Therefore, this will be the Heart of any Project. Any Character, Environment, Soundtrack, Level and even Code will be found here!
+
+### Packages
+
+<img width="466" alt="image" src="https://user-images.githubusercontent.com/7360266/137536830-67b4731f-f794-4090-8312-1fa33a95e63b.png">
+
+If you take a look at the Packages in the Project-Window, then you will find a lot of Content here. Unity has designed the Package Manager around the idea of being able to seamlessly integrate Plugins into the Engine without requiring complicated Installation Instructions.\
+We will learn more about it at a later point, but if you're curios, you may take a look at the `Package Manager` that you find under the Window-Menu.
+
+### What's Next?
+If you look at what's inside your Assets in a new, fresh Project, you will only find one file in the Scenes-Folder: `SampleScene.unity`. That's a `Scene-Asset` and it can be opened through double-click. As we have found out under [Window Title](#window-title), the `SampleScene` is already open, so double-clicking won't really do anything right now.
+
+But let's change that!
+
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/7360266/137539606-8aef4739-fb4f-408c-bd54-657187cb4dbc.png"> | Choose File > New Scene
+------ | ------
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/7360266/137539691-e9ab66f8-2a92-4697-909f-fb24648a356b.png"> | Select `Basic 3D (Built-In)` and then click the `Create`-Button
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/7360266/137539876-9b023edb-d24f-4fbe-bbc8-053171b14b68.png"> | Now, your Window Title should start with `Unitled - SmallTheftAuto`. Let's change that! Use the Save-ShortCut (Mac: ⌘S, Windows: Ctrl+S), or Use the Menu: File > Save
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/7360266/137540191-e588163e-3f4b-464a-ba18-12160c1a4eac.png"> | Make sure to select the `Scenes`-Folder within in your `Assets`-Folder to keep all your Scenes in one place. And then give your Scene a name, like `SanAndreas`. Confirm by clicking the `Save`-Button.
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/7360266/137540391-c8a9514d-6cff-4870-aadb-c69fadb82756.png"> | If you did everything correctly, then your `Assets`-Folder should contain a `Scene`-Folder with two Scenes: `SampleScene` and `SanAndreas`
