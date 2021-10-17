@@ -105,3 +105,123 @@ But let's change that!
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/7360266/137539876-9b023edb-d24f-4fbe-bbc8-053171b14b68.png"> | Now, your Window Title should start with `Unitled - SmallTheftAuto`. Let's change that! Use the Save-ShortCut (Mac: ⌘S, Windows: Ctrl+S), or Use the Menu: File > Save
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/7360266/137540191-e588163e-3f4b-464a-ba18-12160c1a4eac.png"> | Make sure to select the `Scenes`-Folder within in your `Assets`-Folder to keep all your Scenes in one place. And then give your Scene a name, like `SanAndreas`. Confirm by clicking the `Save`-Button.
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/7360266/137540391-c8a9514d-6cff-4870-aadb-c69fadb82756.png"> | If you did everything correctly, then your `Assets`-Folder should contain a `Scene`-Folder with two Scenes: `SampleScene` and `SanAndreas`
+
+## Scene
+
+Now, that you have a scene open, you might want to look at what's inside the Scene. There is two methods of seeing what's inside the scene. The first one is the `Scene`-Window, which displays the visuals of the scene. Right now, `SanAndreas` looks like this:
+
+<img width="602" alt="image" src="https://user-images.githubusercontent.com/7360266/137622890-a9390a1e-03c8-4387-8a94-d4975a5a99e2.png">
+
+You can see:
+- A Skybox as a background, which is grey on the bottom and blue on the top (resembling the Sky)
+- A Camera-Gizmo, which looks like an old Video-Camera
+  - `Gizmo` is the term for Icons in the Scene-View that are only visible to the Editor, but not to the Player in the Game
+- A Light-Gizmo, which looks like a Sun
+
+### Scene-Toolbar
+<img width="604" alt="image" src="https://user-images.githubusercontent.com/7360266/137623792-000cc7c1-6342-41db-937f-fa4922fca91b.png">
+
+There's a toolbar at the top of the Scene-View, I recommend taking a look at a few settings at some point, but it's not necessary now.
+
+### Navigating the Scene
+
+Before we get to how to navigate the Scene, we need to have a few things in our Scene that we can navigate around. For this purpose, you will find a file in the `projects`-Folder named `LibertyCity.unity`. Please move that file to `projects/SmallTheftAuto/Assets/Scenes`.
+
+Switch to Unity again and find the Scene next to `SampleScene` and `SanAndreas` in your `Scenes`-Folder in the `Project`-Window's `Assets`-Category. Open it by double-clicking the Asset. You should find a View similar to this one:
+
+<img width="603" alt="image" src="https://user-images.githubusercontent.com/7360266/137623609-910b4f72-7ee2-4892-8bc3-e5b7a646fbf9.png">
+
+Now, try navigating the Scene! First, make sure, tht the 2D-Toggle in the `Scene`-Window's Toolbar is toggled off (dark grey, not light grey). 
+
+The two most common methods for navigating the Scene are:
+- Using the Arrow-Keys to move up, down, left right
+- Right-Mouse-Button Click and Drag (keep the right mouse button down) to turn the Camera. The Pointer should turn into an Eye-Icon now.
+  - While still being in the Eye-Mode, you can now use WASD to navigate the scene like in a First-Person Game.
+- Using the Mouse-Wheel to Zoom In / Out
+- Selecting a `GameObject` (more on that later) and then using the `F` key to Focus it (zoom in on it)
+
+### Selecting and Moving Objects
+
+You can select Objects by clicking on them and you can move them by choosing the right tool from the Transform Toolbar in the Top-Left of the Unity Editor:
+
+<img width="232" alt="image" src="https://user-images.githubusercontent.com/7360266/137641723-fb8b7905-033d-49ea-9326-eeb2eb091f02.png">
+
+The tools, from left to right, are:
+- Hand-Tool for navigating the Scene without Changing anything
+- Move-Tool for selecting and moving Objects in the Scene
+- Rotate-Tool
+- Scale-Tool
+- Rect-Tool, which is mostly used for UIs
+- Transform-Tool, which combiness Move, Rotate and Scale
+
+## Game
+
+The Game Window can fully simulate the Game for us, so we can test and play our Games directly within the Editor. Often, the Game-View is currently in the background, for examble, because it is an unselected Tab next to the Scene-View, which is selected:
+
+<img width="332" alt="image" src="https://user-images.githubusercontent.com/7360266/137642055-9cfa36e8-d8b1-4670-9a02-6303b279eba7.png">
+
+It will automatically be put in the foreground as soon as you hit the Play-Button in the Top of Unity-Editor:
+
+<img width="107" alt="image" src="https://user-images.githubusercontent.com/7360266/137642016-f270387f-ca51-430b-b0a0-76dd548f052b.png">
+
+<img width="618" alt="image" src="https://user-images.githubusercontent.com/7360266/137642071-18613741-4541-42a4-aef4-b33869de6a77.png">
+
+Now, the Game will start, the Game-View will come to the foreground and you should see a few 3D-Objects falling down. You've just started the Game! You can stop the Game again by clicking the Play-Button again, or you can just Pause it by clicking Pause. You will see later, that we can actually Edit the Game even while Playing. Be careful, though: all changes made during Play-Mode will be lost when stopping the Play-Mode again! Some designers have lost hours of Level-Editing this way, by building complete levels while the Editor was in Play-Mode.
+
+Check out the different Settings on the Game-View's Toolbar! Especially useful are the Simulator and the Resolution Configurator, which can be used to make sure that your Game looks good in certain resolutions. 
+
+## Hierarchy
+
+Before we can better understand, what these Objects, that we can select and move around, are, we need to take a look at the Hierarchy-Window. The Hierarchy Windows gives us an overview of the contents of the currently opened Scene: GameObjects.
+
+### Game Objects
+Game Objects are the heart of our Game. You will learn more about how they work, when we take a look at the Inspector later. 
+
+### Parenting
+You can parent and Unparent Game Objects through Drag and Dropping. Parenting makes sure that GameObjects can be grouped together and moved around together.
+
+## Inspector
+
+The inspector is a General-Purpose Window to Inspect any Object that you can select in Unity. If you Select a GameObject in the Hierarchy-View, then the Inspector will show you information about that Game Object. If you select an Asset in the Project-View, then you will be shown information about that Asset. What exactly the inspector shows you about a GameObject or Asset depends on the type of Object that you have currently Selected.
+
+### GameObject
+
+<img width="416" alt="image" src="https://user-images.githubusercontent.com/7360266/137642340-db677ae6-0574-41a5-9323-7dc13132fba1.png">
+
+
+If you select a GameObject, the top of the inspector will show you the GameObject's
+Attribute | Description
+--------- | ------------
+Icon | You can customize a GameObject's Icon to label them in the Scene-View
+Active State | You can simply enable and disable GameObjects. Disabled GameObjects act as if they wouldn't exist.
+Name | The name is important to understand, what a GameObject resembles. You might call your GameObject's `Player`, `Enemy` or `Waterfall`
+Static State | Static GameObjects are Objects that do not move during Runtime. This helps Unity save a lot of Performance by pre-calculating Shadows and Batching multiple Objects together etc.
+Tag | Tags are useful for Grouping GameObjects together and making them easy and quick to find through our Code.
+Layer | Layers are used for Physics and Rendering. You can tell a Camera to not Render a certain Layer and thereby for example hide invisible traps for one Player, but not for the other. Or you can tell certain Layers to not be able to Collide with each other.
+
+### Components
+
+Below that, the Inspector will show you all Components attached to this GameObject. Components define a GameObject's behavior and functionality. Just naming a GameObject "Camera" won't enable it to record the Game to the Screen of the Player, but by adding a Camera-Component, you can give the Camera-Functionality to this GameObject. And just like that, you will build your Games in the Future, by putting together the right combination of Components on GameObjects to make all parts of your Game behave the way you intend them to.
+
+### Transform-Component
+
+<img width="415" alt="image" src="https://user-images.githubusercontent.com/7360266/137642448-50c17629-5cec-4304-93ab-4b2495acbe79.png">
+
+One Component, that absolutely every GameObject has, is the Transform-Component. It defines our Object's Position, Rotation and Scale.\
+We will later see, that there's another type of Transform named RectTransform, but we'll only need it as soon as wee look into UIs.
+
+### BuiltIn-Components
+Unity comes with hundreds of already BuiltIn-Components for commonly used functionalities like:
+Camera, Mesh Renderer, Audio Listener, Audio Source, Box Collider, Rigidbody, ...
+There is so many, that they are grouped into Categories:
+
+<img width="185" alt="image" src="https://user-images.githubusercontent.com/7360266/137642542-f1d33235-f38e-43fc-a4b3-7aea14432ed6.png">
+
+We will get to use many of these in the upcoming weeks and months.
+
+### Custom Components
+We'll soon start programming our own Custom Components to develop Unique Game Mechanics and Features.
+
+### Assets
+
+If you Select an Asset in the Project-View, then the Inspector will show you Asset-Settings. For many Assts, there's tons of Import Settings that can be configured, for example for Images, you can configure the Compression, Alpha-Layer and much more.
