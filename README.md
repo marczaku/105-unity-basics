@@ -31,6 +31,7 @@ Check out the [Scoring Table](assignments/small-theft-auto.md) to understand, wh
 Learn about Custom Components in Unity
 ## Process
 - [ ] Start the Assignment on Google and GitHub Classroom. Check [Assignments with Google and GitHub Classroom](https://gist.github.com/marczaku/3b1853ee30575093b106ecc480d563b2)
+- [ ] If you feel like you could use a small refresher on the Unity Editor, feel free to check out [004 - Unity Introduction](slides/004-unity-introduction.md)
 - [ ] Work your way through the [Assignments 007: Unity Components](assignments/007-unity-components.md) and the slides mentioned in those assignments.
 
 # Day 2
