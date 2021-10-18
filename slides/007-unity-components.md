@@ -1,3 +1,13 @@
+# 007 Unity Components
+
+Components are used to define a GameObject's Behaviours. You can think of Components as Lego Bricks and GameObjects being the Object that holds them all together.\
+For example, a Creep in a Tower Defense might have Components for
+- Rendering (Displaying) a Monster on the Screen
+- Following a Path
+- Holding Health Logic
+- Sound Effects
+- An Input Area to allow the Player to Click on it
+
 ## 1. Components
 
 - `GameObjects` in Unity have one or more Components
