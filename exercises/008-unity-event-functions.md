@@ -2,7 +2,7 @@
 
 ## Preparation
 
-Read the slides on [Unity Components](../slides/008-unity-event-functions.md) and [Console Intermediate: Enums](https://github.com/marczaku/csharp-intermediate/blob/main/slides/003.6-console-intermediate-1-enums.md)
+Read the slides on [Unity Event Functions](../slides/008-unity-event-functions.md) and [Console Intermediate: Enums](https://github.com/marczaku/csharp-intermediate/blob/main/slides/003.6-console-intermediate-1-enums.md)
 
 ## Set Up
 
