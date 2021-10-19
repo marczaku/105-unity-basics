@@ -1,5 +1,9 @@
 ## 1. Event Functions
 
+- Event Functions are functions that you can use in your Components / MonoBehaviours
+- They will be called by Unity automatically
+- They have to have the correct parameters
+
 ```cs
 using UnityEngine;
 public class NewBehaviourScript : MonoBehaviour {
@@ -15,38 +19,41 @@ public class NewBehaviourScript : MonoBehaviour {
 }
 ```
 
-- Event Functions are functions that you can use in your Components / MonoBehaviours
-- They will be called by Unity automatically
-- They have to have the correct parameters
-
 ---
 
 ## 2. Awake
+
+- `Awake` is called ONCE for each script only
+- Only, when it‘s Enabled for the first time
+- It‘s called before any other function
+- Put early Initialization Code here
+- Use Script Execution Order in Project Settings if you need more control than that
+- Use `Awake` whenever you can (if you do not depend on other scripts to `Awake` first)
 
 ```cs
 using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour {
   void Awake() {
-    Debug.Log("Awake is called as" +
-              "the very first function." +
-              "Put everything here, which" +
-              "MUST be executed before anything" +
-              "else.");
+    Debug.Log("I'm Awake!");
   }
 }
 ```
 
-- Awake is called ONCE for each script only
-- Only, when it‘s Enabled for the first time
-- It‘s called before any other function
-- Put early initialization Code here
-- Use Script Execution Order in Project Settings if you need more control than that
-- Use Awake whenever you can (if you do not depend on other scripts to Awake())
 
 ---
 
-## 3. Start / Ondestroy
+## 3. Start / OnDestroy
+
+- `Start` is called ONCE for each script
+- When it‘s enabled the first time
+- Great for Initialization
+- You should use `Awake` instead if you can, though
+- But if you depend on another Script to `Awake` first, then use `Start` here
+
+- `OnDestroy` is called ONCE for each script
+- When it‘s destroyed, unloaded, or the Game is being quit
+- Great for Clean-Up
 
 ```cs
 using UnityEngine;
@@ -69,16 +76,15 @@ public class NewBehaviourScript : MonoBehaviour {
 }
 ```
 
-- Start is called ONCE for each script
-- When it‘s enabled the first time
-- Great for Initialization
-- OnDestroy is called ONCE for each script
-- When it‘s destroyed, unloaded, or the Game is being quit
-- Great for Clean-Up
 
 ---
 
-## 4. Onenable / Ondisable
+## 4. OnEnable / OnDisable
+
+- `OnEnable` is called everytime, when the Script or its GameObject is enabled
+- Also, when already enabled from Start
+- `OnDisable` is called everytime, when the Script or its GameObject is disabled
+- Also, right before the script is Destroyed
 
 ```cs
 using UnityEngine;
@@ -95,14 +101,15 @@ public class NewBehaviourScript : Monobehaviour {
 }
 ```
 
-- `OnEnable` is called everytime, when the Script is enabled
-- Also, when already enabled from Start
-- `OnDisable is called everytime, when the Script is disabled
-- Also, right before the script is Destroyed
-
 ---
 
 ## 5. Update
+
+  
+- `Update` is called every frame
+- When your script is enabled, only
+- Put logic here that needs to execute regularly
+- Like Input, Visual Updates, …
 
 ```cs
 using UnityEngine;
@@ -111,16 +118,15 @@ public class NewBehaviourScript : Monobehaviour {
     Debug.Log("Update is called every frame.");
   }
 }
-  ```
-  
-- Update is called every frame
-- When your script is enabled, only
-- Put logic here that needs to execute regularly
-- Like Input, Visual Updates, …
+```
 
 ---
 
 ## 6. FixedUpdate
+
+- `FixedUpdate` is called a fixed amount of times per second
+- Put logic here that‘s supposed to be framerate-independent
+- Like physics, AI, heavy game-logic…
 
 ```cs
 using UnityEngine;
@@ -133,16 +139,20 @@ public class NewBehaviourScript : Monobehaviour {
 }
 ```
 
+- Amount of times per second can be configured in Project Settings > Time > Fixed Timestep
+
 <img width="410" alt="image" src="https://user-images.githubusercontent.com/7360266/137853344-1db6e6a5-2291-4371-9fb1-7628124ca7a6.png">
 
-- `FixedUpdate` is called a fixed amount of times per second
-- Put logic here that‘s supposed to be framerate-independent
-- Like physics, AI, heavy game-logic…
-- Amount of times per second can be configured in Project Settings > Time > Fixed Timestep
 
 ---
 
 ## 7. LateUpdate
+
+
+- `LateUpdate` is called after all other `Update` functions
+- It‘s great for when you have to wait for other `Update` to complete
+- E.g. check for the `WinCondition` here, so all other Scripts (like Damages, Heals, etc.) are evaluated before.
+
 
 ```cs
 using UnityEngine;
@@ -155,13 +165,15 @@ public class NewBehaviourScript : Monobehaviour {
 }
 ```
 
-- `LateUpdate` is called after all other Update functions
-- It‘s great for when you have to wait for other Updates to complete
-- E.g. check for the `WinCondition` here, so all other Scripts (like Damages, Heals, etc.) are evaluated before.
-
 ---
 
 ## 8. Collision (3D)
+
+- These three functions are called for collisions for Objects with 3D-Colliders
+- Only, if the other object‘s collider is not a Trigger
+- Only, if at least one of both objects has a RigidBody
+- You will find all details about the collision in the Collision-Object
+
 
 ```cs
 using UnityEngine;
@@ -172,7 +184,7 @@ public class NewBehaviourScript : MonoBehaviour {
   }
   
   void OnCollisionStay(Collision other) {
-    Debug.Log("Still colliding");
+    Debug.Log("Still colliding in this Frame");
   }
  
  void OnCollisionExit(Collision other) {
@@ -181,14 +193,15 @@ public class NewBehaviourScript : MonoBehaviour {
 }
 ```
 
-- These three functions are called for collisions for Objects with 3D-Colliders
-- Only, if the other object‘s collider is not a Trigger
-- Only, if at least one of both objects has a RigidBody
-- You will find all details about the collision in the Collision-Object
 
 ---
 
 ## 9. Trigger (3D)
+
+- These three functions are called for collisions for 3D-Objects
+- Only, if the other object‘s collider is a Trigger
+- Only, if one of both objects has a RigidBody
+- You will find all details about the collider in the Collider-Object
 
 ```cs
 using UnityEngine;
@@ -199,7 +212,7 @@ public class NewBehaviourScript : MonoBehaviour {
   }
   
   void OnTriggerStay(Collider other) {
-    Debug.Log("Still Overlap Trigger");
+    Debug.Log("Still Overlapping Trigger in this Frame");
   }
  
  void OnTriggerExit(Collider other) {
@@ -208,10 +221,6 @@ public class NewBehaviourScript : MonoBehaviour {
 }
 ```
 
-- These three functions are called for collisions for 3D-Objects
-- Only, if the other object‘s collider is a Trigger
-- Only, if one of both objects has a RigidBody
-- You will find all details about the collider in the Collider-Object
 
 ---
 
@@ -257,6 +266,11 @@ public class NewBehaviourScript : MonoBehaviour {
 
 ## 11. Mouse Input
 
+  
+- There‘s a lot of useful mouse input events
+- They are only triggered on GameObjects with Colliders
+- There‘s a better method of using `IPointerClickHandler` and similar interfaces in combination with `PhysicsRayCaster`
+
 ```cs
 using UnityEngine;
 
@@ -282,14 +296,15 @@ public class NewBehaviourScript : MonoBehaviour {
   }
 }
 ```
-  
-- There‘s a lot of useful mouse input events
-- They are only triggered on gameObjects with colliders
-- There‘s a better method of using IPointerClickHandler and similar interfaces in combination with PhysicsRayCaster
 
 ---
 
 ## 12. Other Useful Ones
+
+
+- These all have different use cases.
+- `OnApplicationQuit´ is great for saving data.
+- `OnApplicationPause´ is great for pausing the game and opening the pause menu on return.
 
 ```cs
 using UnityEngine;
@@ -306,7 +321,7 @@ public class NewBehaviourScript : MonoBehaviour {
   
     void OnGUI() {
     Debug.Log("Great for quickly adding debug" +
-             "information ot your game. Bad for performance.");
+             "information for your game. Bad for performance.");
   }
   
     void OnValidate() {
@@ -316,9 +331,5 @@ public class NewBehaviourScript : MonoBehaviour {
   }
 }
 ```
-
-- These all have different use cases.
-- `OnApplicationQuit´ is great for saving data.
-- `OnApplicationPause´ is great for pausing the game and opening the pause menu on return.
 
 ---
