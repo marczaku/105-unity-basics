@@ -1,8 +1,8 @@
-# Assignments 009 Communicating Between GameObjects
+# Exercises 009 Communicating Between GameObjects
 
 ## Preparation
 
-Read the slides on [Console Intermediate: Generics](https://github.com/marczaku/csharp-intermediate/blob/main/slides/003.6-console-intermediate-2-generics.md) and [Communicating Between GameObjects](../slides/009-communicating-between-gameobjects.md)
+Read the slides on [003.6.2 - Console Intermediate: Generics](https://github.com/marczaku/csharp-intermediate/blob/main/slides/003.6-console-intermediate-2-generics.md) and [009 - Communicating Between GameObjects](../slides/009-communicating-between-gameobjects.md)
 
 ## Zoo
 It's time again to create a small Console-Project! Create it within `projects` and name it `ZooMZ`, where `MZ` needs to replaced with your Initials.
