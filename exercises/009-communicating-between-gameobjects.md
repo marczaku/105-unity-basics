@@ -123,8 +123,8 @@ A few Test-Cases for you:
 ```cs
 {
   Zoo<Fish> fishZoo = new Zoo<Fish>();
-  fishZoo.AddAnimal<Salmon>();
-  fishZoo.AddAnimal<Salmon>();
+  fishZoo.AddAnimal(new Salmon());
+  fishZoo.AddAnimal(new Salmon());
   Console.WriteLine("This should be False: "+fishZoo.HasAnimal<Clownfish>());
 }
 ```
@@ -134,9 +134,9 @@ A few Test-Cases for you:
 ```cs
 {
   Zoo<Fish> fishZoo = new Zoo<Fish>();
-  fishZoo.AddAnimal<Salmon>();
-  fishZoo.AddAnimal<Clownfish>();
-  fishZoo.AddAnimal<Salmon>();
+  fishZoo.AddAnimal(new Salmon());
+  fishZoo.AddAnimal(new Clownfish());
+  fishZoo.AddAnimal(new Salmon());
   Console.WriteLine("This should be True: "+fishZoo.HasAnimal<Clownfish>());
 }
 ```
@@ -144,9 +144,9 @@ A few Test-Cases for you:
 ```cs
 {
   Zoo<Animal> animalZoo = new Zoo<Fish>();
-  animalZoo.AddAnimal<Salmon>();
-  animalZoo.AddAnimal<Lion>();
-  animalZoo.AddAnimal<Donkey>();
+  animalZoo.AddAnimal(new Salmon());
+  animalZoo.AddAnimal(new Lion());
+  animalZoo.AddAnimal(new Donkey());
   Console.WriteLine("This should be True: "+fishZoo.HasAnimal<Fish>());
 }
 ```
