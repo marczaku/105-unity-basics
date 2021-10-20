@@ -19,7 +19,7 @@ Read the slides on [Unity Event Functions](../slides/008-unity-event-functions.m
 - Start the Play Mode and notice, that now, only the Player moves
 
 ## Enter and Leave Car (The Cheap Way)
-- Create a new C# Script named `Vehicle`
+- Create a new C# Script named `Vehicle` and add it to the `Car`-GameObject.
 - Add a `public` field of type `GameObject` named `player` to the Script. Reference the `Player`-GameObject in the Scene.
 - Add a `public` field of type `CarMovement` named `carMovement` to the Script. Reference the `CarMovement`-GameObject in the Scene.
 - In `Update`, check, whether the `F` key is being Pressed.
