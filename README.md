@@ -32,55 +32,55 @@ Learn about Custom Components in Unity
 ## Process
 - [ ] Start the Assignment on Google and GitHub Classroom. Check [Assignments with Google and GitHub Classroom](https://gist.github.com/marczaku/3b1853ee30575093b106ecc480d563b2)
 - [ ] If you feel like you could use a small refresher on the Unity Editor, feel free to check out [004 - Unity Introduction](slides/004-unity-introduction.md)
-- [ ] Work your way through the [Assignments 007: Unity Components](exercises/007-unity-components.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 007: Unity Components](exercises/007-unity-components.md) and the slides mentioned in those assignments.
 
 # Day 2
 ## Goal
 Learn about Unity Event Functions
 ## Process
-- [ ] Work your way through the [Assignments 008: Unity Event Functions](exercises/008-unity-event-functions.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 008: Unity Event Functions](exercises/008-unity-event-functions.md) and the slides mentioned in those assignments.
 
 # Day 3
 ## Goal
 Learn about Ways of Communicating between Components and Game Objects
 ## Process
-- [ ] Work your way through the [Assignments 009: Communicating between Components and Game Objects](exercises/009-communicating-between-gameobjects.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 009: Communicating between Components and Game Objects](exercises/009-communicating-between-gameobjects.md) and the slides mentioned in those assignments.
 
 # Day 4
 ## Goal
 Learn about the Unity UI System
 ## Process
-- [ ] Work your way through the [Assignments 010: Unity UI System](exercises/010-unity-ui-system.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 010: Unity UI System](exercises/010-unity-ui-system.md) and the slides mentioned in those assignments.
 
 # Day 5
 ## Goal
 Learn about Game-Object Lifetime
 ## Process
-- [ ] Work your way through the [Assignments 013: Unity Game Object Lifetime](exercises/013-unity-game-object-lifetime.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 013: Unity Game Object Lifetime](exercises/013-unity-game-object-lifetime.md) and the slides mentioned in those assignments.
 
 # Day 6
 ## Goal
 Learn about Unity Serialization
 ## Process
-- [ ] Work your way through the [Assignments 014: Unity Serialization Basics](exercises/014-unity-serialization-basics.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 014: Unity Serialization Basics](exercises/014-unity-serialization-basics.md) and the slides mentioned in those assignments.
 
 # Day 7
 ## Goal
 Learn about Scriptable Objects
 ## Process
-- [ ] Work your way through the [Assignments 015: Scriptable Objects](exercises/015-scriptable-objects.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 015: Scriptable Objects](exercises/015-scriptable-objects.md) and the slides mentioned in those assignments.
 
 # Day 8
 ## Goal
 Learn about Time and Timing
 ## Process
-- [ ] Work your way through the [Assignments 017: Time and Timing](exercises/017-time-and-timing.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 017: Time and Timing](exercises/017-time-and-timing.md) and the slides mentioned in those assignments.
 
 # Day 9
 ## Goal
 Learn about Reacting to Changes
 ## Process
-- [ ] Work your way through the [Assignments 018: Unity Reacting To Changes](exercises/018-unity-reacting-to-changes.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 018: Unity Reacting To Changes](exercises/018-unity-reacting-to-changes.md) and the slides mentioned in those assignments.
 
 # Day 10
 ## Goal
