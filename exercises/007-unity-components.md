@@ -1,4 +1,4 @@
-# Assignments 007 Unity Components
+# Exercises 007 Unity Components
 
 ## Preparation
 
