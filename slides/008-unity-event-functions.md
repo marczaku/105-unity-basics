@@ -152,6 +152,10 @@ public class NewBehaviourScript : Monobehaviour {
 - `LateUpdate` is called after all other `Update` functions
 - It‘s great for when you have to wait for other `Update` to complete
 - E.g. check for the `WinCondition` here, so all other Scripts (like Damages, Heals, etc.) are evaluated before.
+- Or move your Healthbars to the player's position
+  - This makes sure, that the player first moves (in `Update`)
+  - And THEN, your Healthbar gets moved above the Player
+  - If it was to happen in reverse, your Healthbar might end up where the player HAS BEEN a moment ago ^^
 
 
 ```cs
