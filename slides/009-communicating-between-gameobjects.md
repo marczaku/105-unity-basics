@@ -96,7 +96,10 @@ Sometimes one is not enough, but you just want them all:
 void Start() {
   this.mainThruster.enabled = true;
   // This finds all Thrusters that are parented under ourselves:
-  foreach (Thruster thruster in GetComponentsInChildren<Thruster>()) {
+  Thruster[] thrusters = GetComponentsInChildren<Thruster>();
+  // HINT: Use foreach-loop, if you already know, what that is!
+  for(int i = 0; i < thrusters.Length; i++) {
+    Thruster thruster = thrusters[i];
     thruster.enabled = true;
     if (thuster.transform.localPosition.x > 0) {
         this.rightTrusters.Add(thruster);
@@ -136,7 +139,10 @@ void Start() {
 
 ```cs
 void BaitAllEnemies() {
-  foreach (Enemy enemy in FindObjectsOfType<Enemy>()) {
+  Enemy[] enemies = FindObjectsOfType<Enemy>();
+  // HINT: Use foreach-loop, if you already know, what that is!
+  for(int i = 0; i < enemies.Length; i++) {
+    Enemy enemy = enemies[i];
     enemy.target = this;
     enemy.isAngry = true;
   }
