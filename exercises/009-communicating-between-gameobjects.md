@@ -143,7 +143,7 @@ A few Test-Cases for you:
 
 ```cs
 {
-  Zoo<Animal> animalZoo = new Zoo<Fish>();
+  Zoo<Animal> animalZoo = new Zoo<Animal>();
   animalZoo.AddAnimal(new Salmon());
   animalZoo.AddAnimal(new Lion());
   animalZoo.AddAnimal(new Donkey());
