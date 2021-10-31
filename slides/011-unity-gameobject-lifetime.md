@@ -30,7 +30,15 @@
 
 ## 3. Created Through Code
 
-<img src="https://user-images.githubusercontent.com/7360266/139598181-121cd9e9-5eab-45b3-b1d2-b869182e13ec.png" width="400" height="150">
+```cs
+void CreateView() {
+   var parent = New GameObject("GoldView");
+   var child = New GameObject("GoldViewChild");
+   child.transform.SetParent(parent.transform);
+   var text = child.AddComponent<Text>();
+   text.text = "This is a gold view.";
+   }
+   ```
 
 - `GameObjects` can be created through a script
 - Their lifetime starts when your code gets executed
@@ -41,10 +49,37 @@
 
 ## 4. GameObject Lifetime (simplified)
 
-<img src="https://user-images.githubusercontent.com/7360266/139598257-e03def2b-0b63-42ab-9af4-b49f0d5862d7.png" width="200" height="450">
-
-<img width="217" alt="image" src="https://user-images.githubusercontent.com/7360266/139598271-d5dbbcb0-706f-4580-9de8-0c801038f0ee.png">
-
+```cs
+void Awake() {
+   CreateView();
+}
+   ```
+   
+   ```cs
+   void GameObjectLifeTime() {
+      // first time loaded and enabled:
+      Awake();
+      OnEnable();
+      Start();
+      // every frame while enabled:
+      Update();
+      LateUpdate();
+      Update();
+      LateUpdate();
+      // 50 times per seond while enabled:
+      FixedUpdate();
+      FixedUpdate();
+      // possibly multiple times disabled and enabled:
+      OnDisable();
+      OnEnable();
+      OnDisable();
+      OnEnable();
+      // unloading:
+      OnDisable();
+      OnDestroy();
+   }
+   ```
+   
 - You can react to a `GameObject`‘s lifetime
 - Using Unity Event functions
 - They get executed automatically in this order:
@@ -54,7 +89,18 @@
 
 ## 5. Disabling GameObjects
 
-
+```cs
+void Sample(GameObject gameObject) {
+   gameObject.SetActive(true);
+   gameObject.SetActive(false);
+   // this checks if the gameObject itself is marked to be enabled
+   Debug.Log(gameObject.activeself);
+   // this checks if the gameObject is actually enabled 
+   // (because it could be disabled because it's parent is disabled)
+   Debig.Log(gameObject.activeInHierarchy);
+ }
+   ```
+   
 - **You can disable GameObjects:**
   - Through the Editor
   - Through Code
@@ -62,17 +108,25 @@
 - 
 <img width="258" alt="image" src="https://user-images.githubusercontent.com/7360266/139598294-ff36d56e-95ab-41bf-a505-30fac10d4c20.png">
 
-<img src="https://user-images.githubusercontent.com/7360266/139598298-2d64d567-a771-4cd6-9f41-4605dfe440ea.png" width="400" height="250">
-
 <img width="369" alt="image" src="https://user-images.githubusercontent.com/7360266/139598301-1f67ec2e-68fe-438d-af00-7841c6024ec7.png">
 
 ---
 
 ## 6. Destroying GameObjects
 
+```cs
+void Sample(GameObject gameObject) {
+   // you can destroy a gamObject:
+   Destroy(gameObject);
+   // this is necessary in very special occasions
+   // when you are executing this code from
+   // an editor extension insted 
+   // of within your game logic:
+   DestroyImmediate(gameObject);
+ }
+   ```
+   
 <img src="https://user-images.githubusercontent.com/7360266/139598344-80b3ece6-5535-41d4-ac56-47db52bf83f7.png" width="400" height="290">
-
-<img width="327" alt="image" src="https://user-images.githubusercontent.com/7360266/139598348-663b534c-dea5-4e7d-abe4-868b6dc5ccec.png">
 
 - **You can destroy GameObjects:**
   - Through the Editor
@@ -83,9 +137,22 @@
 
 ## 7. Instantiating Prefabs
 
+```cs
+// you can assign the prefab in the inspector of this script
+public GameObject prefab;
+void Sample(GameObject gameObject) {
+   // instantiates the prefab as root go:
+   Tnstantiate(prefab);
+   // instantiates the prefab as a child of the gameObject:
+   Instantiate(prefab, gameObject.transform);
+   // instantiates the prefab at the given position and rotation:
+   Instantiate(prefab, new Vector3(1, 2), Quaternion.Euler(1, 2, 3));
+   // you can save a reference of the new instance to a vairable:
+   var instance = Instantiate(prefab);
+   var instantiate.name = "Cool Name";
+   }
+   ```
 <img src="https://user-images.githubusercontent.com/7360266/139598374-b93fec5f-82d8-4683-96d9-7db776d80aec.png" width="400" height="300">
-
-<img src="https://user-images.githubusercontent.com/7360266/139598375-9d23bb11-5c09-4817-bf9b-8e632c79f5ed.png" width="400" height="260">
 
 - **You can instantiate Prefabs:**
   - _Through the Editor:_ drag from the Project View to the scene Hierarchy
@@ -95,9 +162,20 @@
 
 ## 8. Unloading Scenes
 
-<img src="https://user-images.githubusercontent.com/7360266/139598427-2b365b95-0e49-4998-9d1b-bef154dfeaf1.png" width="400" height="330">
+```cs
+void Sample(GameObject gameObject) {
+// you can unload a loaded scene:
+SceneManager.UnloadSceneAsync("Level01");
+// you can load a new scene without unloading the current one:
+SceneManager.Loadscene("HUD", LoadSceneMode.Additive);
+// you can load a new scene while unloading all current ones:
+SceneManager.Loadscene("Level02");
+// you can flag gameObjects to never be unloaded on scene switches:
+DontDestroyOnLoad(gameObject);
+}
+```
 
-<img width="385" alt="image" src="https://user-images.githubusercontent.com/7360266/139598434-581aeee0-db36-4f81-b60c-1308e4e52510.png">
+<img src="https://user-images.githubusercontent.com/7360266/139598427-2b365b95-0e49-4998-9d1b-bef154dfeaf1.png" width="400" height="330">
 
 - **You can Load a Scene:**
   - _Through the Editor:_ by double clicking on a scene, or Drag Dropping the scene to the hierarchy
