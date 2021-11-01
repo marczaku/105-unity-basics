@@ -56,7 +56,7 @@ Learn about the Unity UI System
 ## Goal
 Learn about Game-Object Lifetime
 ## Process
-- [ ] Work your way through the [Exercises 011: Unity Game Object Lifetime](exercises/011-unity-game-object-lifetime.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 011: Unity Game Object Lifetime](exercises/011-unity-gameobject-lifetime.md) and the slides mentioned in those assignments.
 
 # Day 6
 ## Goal
