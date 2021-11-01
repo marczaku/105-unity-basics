@@ -62,7 +62,7 @@ Learn about Game-Object Lifetime
 ## Goal
 Learn about Unity Serialization
 ## Process
-- [ ] Work your way through the [Exercises 014: Unity Serialization Basics](exercises/014-unity-serialization-basics.md) and the slides mentioned in those assignments.
+- [ ] Work your way through the [Exercises 012: Unity Serialization Basics](exercises/012-unity-serialization-basics.md) and the slides mentioned in those assignments.
 
 # Day 7
 ## Goal
