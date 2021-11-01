@@ -88,7 +88,7 @@
 
 <img width="279" alt="image" src="https://user-images.githubusercontent.com/7360266/139732215-07c265a8-11f3-4cb6-949d-73860b67dde4.png">
 
-![image](https://user-images.githubusercontent.com/7360266/139732230-4d69853b-1ed1-4210-868e-d4c4ee062492.png)
+<img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139732230-4d69853b-1ed1-4210-868e-d4c4ee062492.png">
 
 - A GameObject is serialized by being given a UniqueID (&1049995125)
 - And saving its relevant Attributes
@@ -102,7 +102,7 @@
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/7360266/139732505-53115f51-e66d-4b79-ab1f-fccf152f43d2.png">
 
-![image](https://user-images.githubusercontent.com/7360266/139732511-5352d036-4006-40e1-898b-f494e5a928ef.png)
+<img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139732511-5352d036-4006-40e1-898b-f494e5a928ef.png">
 
 - Every GameObject has a Transform in Unity!
 - It is saved as one of its Components
@@ -120,7 +120,7 @@
 
 <img width="167" alt="image" src="https://user-images.githubusercontent.com/7360266/139732705-3b792981-aa21-4e83-94be-ed3752fc5258.png">
 
-![image](https://user-images.githubusercontent.com/7360266/139732722-fae4342e-9576-46e7-9006-b63f248c49e2.png)
+<img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139732722-fae4342e-9576-46e7-9006-b63f248c49e2.png">
 
 - A transform has its values serialized:
   - localRotation
@@ -137,9 +137,9 @@
 
 <img width="362" alt="image" src="https://user-images.githubusercontent.com/7360266/139732811-937cca22-076c-46b1-b53d-293b846b7230.png">
 
-![image](https://user-images.githubusercontent.com/7360266/139732820-f4f73cb7-ee79-4705-8237-eefdc50b9997.png)
+<img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139732820-f4f73cb7-ee79-4705-8237-eefdc50b9997.png">
 
-![image](https://user-images.githubusercontent.com/7360266/139732833-d514f105-2d05-476e-bb3f-77b1532f4813.png)
+<img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139732833-d514f105-2d05-476e-bb3f-77b1532f4813.png">
 
 - If your Class inherits from MonoBehaviour
 - Then you can attach it to any GameObject
@@ -167,7 +167,7 @@ private int privateSerializedField = 7;
 
 <img width="439" alt="image" src="https://user-images.githubusercontent.com/7360266/139733238-d75e5fd6-e7c8-4b4d-9dfa-2a1600beb262.png">
 
-![image](https://user-images.githubusercontent.com/7360266/139733244-29767576-605a-46f2-9a4c-05f9820270a7.png)
+<img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139733244-29767576-605a-46f2-9a4c-05f9820270a7.png">
 
 - Fields of your MonoBehaviours will be serialized if:
   - They are a basic type AND:
@@ -242,7 +242,7 @@ public SerializableClass[] publicSerializableClassArray = {
 ```
 <img width="393" alt="image" src="https://user-images.githubusercontent.com/7360266/139744258-3eea0a0b-b93a-4582-93c0-d1f27658181f.png">
 
-![image](https://user-images.githubusercontent.com/7360266/139744269-463899ff-9ba2-4f5a-ba39-a5f8f257e5b6.png)
+<img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139744269-463899ff-9ba2-4f5a-ba39-a5f8f257e5b6.png">
 
 - Unity can serialize Arrays of SerializableTypes
   - Arrays of Basic Types
