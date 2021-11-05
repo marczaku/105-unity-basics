@@ -155,6 +155,9 @@ Destroy | An existing Object gets destroyed | Nothing happens | The C++ Object g
 <img width="409" alt="image" src="https://user-images.githubusercontent.com/7360266/139948970-c1e273f1-e0c6-4fb1-8f42-b673fa5c249b.png">
 <sup>== null ? TRUE</sup>
 
+<img width="157" alt="image" src="https://user-images.githubusercontent.com/7360266/140583902-70057ca9-12ed-4344-a42a-440380910e47.png">
+
+
 ---
 
 ## 7. UnityEngine.Object useless?
