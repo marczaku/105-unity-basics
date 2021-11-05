@@ -157,6 +157,8 @@ Destroy | An existing Object gets destroyed | Nothing happens | The C++ Object g
 
 <img width="157" alt="image" src="https://user-images.githubusercontent.com/7360266/140583902-70057ca9-12ed-4344-a42a-440380910e47.png">
 
+<img width="446" alt="image" src="https://user-images.githubusercontent.com/7360266/140583961-95e70077-f68f-41cb-917c-8e4b8830c6b6.png">
+
 
 ---
 
