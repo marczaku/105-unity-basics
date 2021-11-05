@@ -335,6 +335,9 @@ public class Item : ScriptableObject {
 
 . . .
 
+<img width="571" alt="image" src="https://user-images.githubusercontent.com/7360266/140585673-895fb16a-ba1a-44ab-b601-988488733319.png">
+
+
 - Sharing Events across Objects / Scenes
 - PlayerPrefab Invokes OnPlayerDied ScriptableObject Instance
 - Other Elements, like UI and Enemies can subscript to the same instance and receive Callbacks
