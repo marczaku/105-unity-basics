@@ -1,6 +1,6 @@
 ## 1. Classes
 
-Classes serialized as Fields of Components...
+Serializable Classes which are Fields of Components...
 
 ```cs
 [System.Serializable]
@@ -12,7 +12,7 @@ public class Level {
 
 ```cs
 public class Hero : NonoBehaviour {
-   public level Level;
+   public Level level;
 }
  ```
  
@@ -213,6 +213,7 @@ Destroy | An existing Object gets destroyed | Nothing happens | The C++ Object g
 
 - Unity Components like Transform inherit from Component or Behaviour
 - To improve performance
+- By avoiding the extra MonoBehaviour Overhead
 
 ---
 
@@ -265,8 +266,8 @@ public class Item : ScriptableObject {
 
 <img width="390" alt="image" src="https://user-images.githubusercontent.com/7360266/139950419-0b2052e7-5798-4984-99bc-5b04eade1582.png">
 
-- Make a class Inherit from ScriptableObject
-- Give it a [CreateAssetMenu] Attribute
+- Make a class Inherit from `UnityEngine.ScriptableObject`
+- Give it a `[CreateAssetMenu]` Attribute
 - You can now rightclick wihin Project View and Create a new Instance of that Class
 - The Instance will exist as an Asset in your Project View
 - You can select it to view and edit its values in the Inspector
@@ -286,7 +287,7 @@ public class Item : ScriptableObject {
 
 ---
 
-## 15. Scriptable object == monobehaviour??
+## 15. Scriptable Object == MonoBehaviour??
 
 <img width="277" alt="image" src="https://user-images.githubusercontent.com/7360266/139950623-a671c302-e513-4298-bfc2-02e340d289b0.png">
 
@@ -306,8 +307,8 @@ public class Item : ScriptableObject {
 
 <img width="393" alt="image" src="https://user-images.githubusercontent.com/7360266/139950845-118319ea-4097-4e63-b36e-5e0f80d23815.png">
 
-- A Scriptable Object does not need a GameObject to be attached to
-- And it cannot be attached to a GameObject, even if you wanted to
+- A Scriptable Object does not need a `GameObject` to be attached to
+- And it cannot be attached to a `GameObject`, even if you wanted to
 - It has therefore less overhead.
 - That‘s it!
 
