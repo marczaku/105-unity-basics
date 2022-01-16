@@ -253,10 +253,10 @@ Again, you will find the Serializable Field both in the Inspector and the Scene-
 // arrays can be serialized:
 public int[] publicArrayField = {
   0x11223344, 3, 2
-  };
+};
 public string[] publicStringArrayField = {
   "Hello", "world", "!"
-  };
+};
 public SerializableClass[] publicSerializableClassArray = {
   new SerializableClass(12),
   new SerializableClass(19),
