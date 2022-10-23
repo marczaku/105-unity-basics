@@ -1,10 +1,8 @@
-# Welcome to this course on Unity Introduction.
+# 105 - Unity Basics
 
 ## Preclaimer
 
-⚠️ ⚠️ Warning: GitHub will not update your personal repositories with the updated course materials.\
-You will always find the full and updated course material over here: [Unity Introduction by Marc Zaku](http://github.com/marczaku/unity-introduction/)\
-I recommend to always click on above link once per day! ⚠️ ⚠️
+Build the technical foundation needed for Programming in Unity. We will take a look at the Editor GUI and how we can write Code that we can use within Unity. We will also learn, how Unity's serialization works and how we can utilize it to store the information that we need to store.
 
 ## Introduction
 
