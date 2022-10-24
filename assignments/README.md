@@ -1,6 +1,6 @@
 # Assignment: Small Theft Auto
 
-Please use the Unity Project under `projects/SmallTheftAuto` for this Assignment.\
+Please use the Unity Project under `SmallTheftAuto` for this Assignment.\
 This is a Group Assignment for 4 people per Group.\
 I recommend the following work schedule:
 - Between 9:00 and 16:00 (or 18:00)
