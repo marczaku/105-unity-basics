@@ -1,5 +1,10 @@
 # Exercises 1 - The Editor
 
+## How to work on the exercises
+Please work on this and the upcoming exercises by creating your own Branch in GitHub Desktop (e.g. `marczaku`) and making the exercise changes on that branch in the `SmallTheftAuto`-Project only.
+
+When working on the actual assignment, later, don't forget to switch back to the `main` branch.
+
 ## Goal
 Unity is a modular, cross-platform 3D Engine with integrations for Ads, Shops, Physics, Multiplayer, Analytics, Visual Scripting, AR, VR nd much more. In this course, you'll learn to make your first steps in the 3D Engine which can be a bit overwhelming in the beginning.
 

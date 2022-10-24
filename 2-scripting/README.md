@@ -1,8 +1,100 @@
 # Exercises 2 - Scripting
 
-## 1 - Components
+## 1.1 - Components
 
-## Goal
+### Goal
+We'll make a small Jenga Tower Game.
+
+### Slides
+Need Help? [Here's The Slides!](slides/README.md#1-components)
+
+### Set Up
+
+- Create a new Scene (`Basic 3D (Built-In)`) and name it Jenga
+- Create a GameObject -> 3D Object -> Plane
+  - Place it at Position (0, 0, 0)
+  - Change its scale to (0.6, 1, 0.6)
+  - Name it Ground
+- Create a GameObject -> 3D Object -> Cube
+  - Place it at Position (0, 0.2, 0)
+  - Change its scale to (3, 0.4, 1)
+  - Name it Brick
+- Create a Prefab from this Brick
+- Now, instantiate this prefab 2 more times
+  - Place the first instance at (0, 0.2, -1)
+  - Place the third instance at (0, 0.2, 1)
+- We have one row of Jenga Bricks now
+- Build 10 more rows of Bricks by changing the y-position and by rotating each even row by 90 degrees on the Y-Axis
+
+### Instructions
+
+We want to be able to remove Jenga Bricks by clicking on them.
+- Add a Physics RayCaster Component to the Main Camera Game Object
+  - This component will track for mouse input on objects with 3D Colliders
+- Create a new GameObject > UI > Event System
+  - This class is needed to actually track mouse events like moving, clicking, hovering etc.
+- Open the Brick Prefab. Then in the Prefab:
+  - Add a Event Trigger Component
+  - Select Add New Event Type
+  - Then Pointer Click
+  - Set the Brick GameObject itself as a Target (it says `None (Object)`)
+  - Set the Function to GameObject > SetActive (it says `No Function`)
+    - The flag is set to `false` automatically
+    - This will disable the GameObject when it's clicked on
+- Test it! Leave Prefab Editing Mode and start Play Mode!
+
+Next, we want our Bricks to fall when they're not resting on other bricks.
+- Open the Brick Prefab. Then in the Prefab:
+  - Add a Rigid Body Component
+- Test it! Leave Prefab Editing Mode and start Play Mode!
+
+## 1.2 Custom Component
+
+### Goal
+We'll add a counter to Jenga which detects, how many bricks we have removed so far
+
+### Slides
+Need Help? [Here's The Slides!](slides/README.md#1-components)
+
+### Set Up
+- Create a GameObject > Create Empty
+  - Name it Brick Counter
+
+### Instructions
+- In the Project View, Create -> C# Script
+  - Name it BrickCounter
+  - No WhiteSpaces in the name!
+  - Open the Script by Double-Clicking
+  - Rider should open up now
+- In Rider, we'll get to Code:
+  - You'll find a class named `BrickCounter` which inherits from `MonoBehaviour`
+  - Remove both methods and comments that you find in the class
+    - `Start` and `Update`
+  - Add a private field of type `int` named `brickCount`
+  - Add a public method
+    - return type `void`
+    - no parameters
+    - named `CountBrick`
+  - in the method's body:
+    - increment `brickCount`
+    - Use the static method `Log` in class `Debug` and pass the interpolated string `$"Total Bricks Removed: {brickCount}` as an argument.
+- Next, we need to add the script to our Game Scene:
+  - Drag&Drop the `BrickCounter`-Script onto the `Brick Counter` GameObject in the scene
+- And now, we need to make sure that the `CountBrick`-Method is invoked when a brick is clicked:
+  - You can't reference the `Brick Counter` directly to the `Brick` Prefab though
+    - That is, because in a Prefab we can't reference objects which are part of a scene
+    - That is, because the prefab could be used in entirely different scenes
+  - Instead, we need to reference it in the actual instances of the `Brick` in our Game Scene
+  - Select all instances of the `Brick` GameObject and on the Event Trigger Component:
+    - Click the small + Button under Pointer Click
+    - Drag&Drop the `Brick Counter` GameObject as a Target
+    - Select BrickCounter > CountBrick as the Function to Call
+- Start the Play Mode, make sure the Console Window is open and observe the Console output when clicking on Bricks! :)
+
+
+## 2 - Event Functions
+
+### Goal
 Implement Movement forward and backward and rotation to the left and right.
 
 ### Slides
@@ -61,6 +153,8 @@ Solve it!
 Use `float Input.GetAxis(string name);` instead of `bool Input.GetKey(KeyCode keyCode);`
 
 ---
+
+IGNORE THE EXERCISES BELOW, THEY WILL BE MOVED TO LATER!
 
 ## 2 - Event Functions
 
