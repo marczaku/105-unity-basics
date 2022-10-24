@@ -10,7 +10,10 @@ Need Help? [Here's The Slides!](slides/README.md#1-components)
 
 ### Set Up
 
-- Create a new Scene (`Basic 3D (Built-In)`) and name it Jenga
+- Create a new Scene (`Basic 3D (Built-In)`)
+  - Now, Save the Scene (Ctrl+S)
+  - Put it in `Assets/Scenes`
+  - And name it `Jenga`
 - Create a GameObject -> 3D Object -> Plane
   - Place it at Position (0, 0, 0)
   - Change its scale to (0.6, 1, 0.6)
@@ -36,7 +39,8 @@ We want to be able to remove Jenga Bricks by clicking on them.
 - Open the Brick Prefab. Then in the Prefab:
   - Add a Event Trigger Component
   - Select Add New Event Type
-  - Then Pointer Click
+  - Then `Pointer Click`
+  - Click on the Small `+` Button to connect a new event target
   - Set the Brick GameObject itself as a Target (it says `None (Object)`)
   - Set the Function to GameObject > SetActive (it says `No Function`)
     - The flag is set to `false` automatically
@@ -59,6 +63,11 @@ Need Help? [Here's The Slides!](slides/README.md#1-components)
 ### Set Up
 - Create a GameObject > Create Empty
   - Name it Brick Counter
+- Let's validate, that Rider is configured as the IDE of your choice:
+  - Open Edit > Preferences
+  - Open the External Tools Tab
+  - Instead of `Open by File Extension`, select `Rider`
+  - This ensures, that Auto-Complete etc. works
 
 ### Instructions
 - In the Project View, Create -> C# Script
@@ -85,22 +94,117 @@ Need Help? [Here's The Slides!](slides/README.md#1-components)
     - That is, because in a Prefab we can't reference objects which are part of a scene
     - That is, because the prefab could be used in entirely different scenes
   - Instead, we need to reference it in the actual instances of the `Brick` in our Game Scene
-  - Select all instances of the `Brick` GameObject and on the Event Trigger Component:
+  - Select each instance of the `Brick` GameObject and on the Event Trigger Component and for each:
     - Click the small + Button under Pointer Click
     - Drag&Drop the `Brick Counter` GameObject as a Target
     - Select BrickCounter > CountBrick as the Function to Call
 - Start the Play Mode, make sure the Console Window is open and observe the Console output when clicking on Bricks! :)
 
-
-## 2 - Event Functions
+## 2.1 - Event Functions (Collision)
 
 ### Goal
-Implement Movement forward and backward and rotation to the left and right.
+Right now, the game can't detect when the tower has crashed (which means that the player has lost). Let's fix that!
+
+We'll add a Dead Zone underneath the plane which holds the tower and make it a lot larger than the plane.
+
+If anything collides with that Dead Zone, it must mean, that a Brick crashed.
 
 ### Slides
-Need Help? [Here's The Slides!](slides/README.md#1-components)
+Need Help? [Here's The Slides!](slides/README.md#2-event-functions)
 
 ### Set Up
+- Create a GameObject -> 3D Object -> Plane
+  - Place it at Position (0, -0.1, 0)
+    - This is slightly below the ground plane
+  - Change its scale to (3, 1, 3)
+  - Name it Dead Zone
+
+### Instructions
+- In the Project View, Create -> C# Script
+  - Name it DeadZone
+  - No WhiteSpaces in the name!
+  - Open the Script
+- Implement the Collision Detection Unity Event Method on your Script
+  - Find the correct signature (return type, method name, parameters) on the slides for On Collision Enter (not 2D!)
+  - Within the Method body, which only gets invoked as soon as any Object as collided with the Dead Zone:
+    - Invoke `Debug.Log` and pass `"The tower collapsed. You lose."`
+    - Add the following expression for restarting the Scene: `SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);`
+- Don't forget to attach the `DeadZone` Script to our `Dead Zone` GameObject!
+- Test it!
+
+## 2.2 - Event Functions (Start)
+
+### Goal
+That tower is way too tidy! Let's make a script that makes our bricks less perfectly shaped and less perfectly positioned :)
+
+### Slides
+Need Help? [Here's The Slides!](slides/README.md#2-event-functions)
+
+### Instructions
+- In the Project View, Create -> C# Script
+  - Name it Brick
+  - Open the Script
+- Implement the Start Unity Event Method in your Script
+  - Find the correct signature (return type, method name, parameters) on the slides for Start
+  - Within the Method body, which only gets invoked once when the Game Starts:
+    - The Property `Transform transform {get;}` allows us to access our `Transform` Component, which holds our position.
+    - `Transform` has a Property `Vector3 position {get;set;}` with which we can change the `x`, `y` and `z` coordinates of our position.
+    - We can use the `+=` operator to change the position in a certain direction.
+    - `Transform` also has a Property `Vector3 right {get;}` which returns the direction of the Transform's right side (which is always different depending on the GameObject's rotation)
+    - If we would add the whole `right` Vector to our `position`, each brick would move a whole Unity Unit in distance (remember, a Brick is 3 Units long and 1 wide, so that'd be way too much)
+    - We also want them all to have some random offsets, sometimes in one, sometimes in the other direction
+    - So we can multiply the `right` Vector with a random `float`:
+    - `transform.right * Random.Range(-.1f,.1f)`
+    - This way, each Brick will receive a random offset. Sometimes .1 to the left side, sometimes .1 to the right side, sometimes 0.
+- Don't forget to attach the `Brick` Script to your `Brick` Prefab. Not on one or each of the Game Objects in the Scene, but on the Prefab in your Project Window.
+- Test it!
+
+
+## 2.3 - Event Functions (Drag)
+
+### Instructions
+
+- Make the `Brick` class implement the interfaces
+  - `IBeginDragHandler`: When the user starts Dragging, we will tell the RigidBody attached to our GameObject to stop being simulated and be kinematic instead, since we want to control the physics from our code.
+  - `IDragHandler`: When the user continues Dragging, we will update our position depending on the user's drag direction.
+  - `IEndDragHandler`: When the user stops Dragging, we will tell the RigidBody to stop being kinematic and be simulated again instead.
+
+The coding part is a little too technical and mathematical for my taste at this point, so here's the working code:
+
+```cs
+    public void OnDrag(PointerEventData eventData)
+    {
+        Plane plane = new Plane(Vector3.up, Vector3.up * eventData.pointerPressRaycast.worldPosition.y);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (plane.Raycast(ray, out float distance))
+        {
+            transform.position = ray.GetPoint(distance);
+        }
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        GetComponent<Rigidbody>().isKinematic = false;
+    }
+```
+
+Remove the `EventTrigger` Component from the `Brick` Prefab in the Project View, so the user can't click on the Bricks to remove them anymore.
+
+Test it! :)
+
+Note: What Feature of the game broke now? Can you fix it? Do you face additional problems?
+
+## 2.4 - Event Functions (Update)
+
+### Goal
+We will begin with a Small Theft Auto Prototype and implement Movement forward and backward and rotation to the left and right.
+
+### SetUp
 
 <img width="156" alt="image" src="https://user-images.githubusercontent.com/7360266/137805960-04b2da02-5785-4fdd-aa49-09cdcf195053.png">     <img width="90" alt="image" src="https://user-images.githubusercontent.com/7360266/137805943-bf9c3476-21bb-4d3c-a551-e1fc7c1e0e22.png">   
 
@@ -154,71 +258,7 @@ Use `float Input.GetAxis(string name);` instead of `bool Input.GetKey(KeyCode ke
 
 ---
 
-IGNORE THE EXERCISES BELOW, THEY WILL BE MOVED TO LATER!
-
-## 2 - Event Functions
-
-### Slides
-Need Help? [Here's The Slides!](slides/README.md#2-event-functions)
-
-You might also need: [Console Intermediate: Enums](https://github.com/marczaku/csharp-intermediate/blob/main/slides/003.6-console-intermediate-1-enums.md)
-
-### Set Up
-
-- Create a GameObject for the Car
-  - I have built one using an Empty Parent GameObject named Car
-  - A 3D-Cube as a child that's scaled on the X-Axis, named Body
-  - 4 3D-Cubes as children, named Wheel
-- Create a new C# Script named `CarMovement`
-- Attach the Script to the Car-GameObject
-- Add the same Code from the `PlayerMovement` to the Car
-  - This is not realistic Car Physics, but it'll do the job for now!
-- Start the Play Mode and notice, that both the Player and the Car move at the same Time now
-- Disable the `CarMovement`-Component on the Car-GameObject
-- Start the Play Mode and notice, that now, only the Player moves
-
-### Enter and Leave Car (The Cheap Way)
-- Create a new C# Script named `Vehicle` and add it to the `Car`-GameObject.
-- Add a `public` field of type `GameObject` named `player` to the Script. Reference the `Player`-GameObject in the Scene.
-- Add a `public` field of type `CarMovement` named `carMovement` to the Script. Reference the `CarMovement`-GameObject in the Scene.
-- In `Update`, check, whether the `F` key is being Pressed.
-- If so, check, whether the `player`-GameObject's `isActiveInHierarchy`-Property is `true`
-  - If `true`, then the `player` is not in the Vehicle and we should let him "Enter":
-    - Set the `player`-GameObject inactive by invoking its `SetActive` method with the value `false` to Hide the Player.
-    - Set the `carMovement`-Field's `enabled`-Property to `true` to enable Car Controls.
-  - If `false`, then the `player` is currently in the Vehicle and we should let him "Exit":
-    - Assign the `Vehicle`-Script's own `transform`-Property's `position`-Property's value to the `player`-GameObject's `transform`-Property's `position`-Property to the.
-    - Set the `player`-GameObject active by invoking its `SetActive` method with the value `true` to Show the Player.
-    - Set the `carMovement`-Field's `enabled`-Property to `false` to disable Car Controls.
-- Test your code, whether it works. If not, then you probably did one of the steps wrong.
-
-### Clean-Up
-- Move the Logic for Checking, whether the Player is in a Car, for Entering and Leaving the Car to new Methods, to clean up your Code.
-- Update should look like this:
-```cs
-void Update() {
-   if(PlayerIsInCar()) {
-      LeaveCar();
-   } else {
-      EnterCar();
-   }
-}
-```
-
-### Distance-Check
-- Check, whether the Player is actually close to the car before letting him Enter.
-- Check the distance using `float Vector3.Distance(Vector3 a, Vector3 b);` and comparing the result using `<`
-- Only call `EnterCar()`, if that distance is not bigger than a threshold that you pick yourself
-
-### Use the Input Manager
-- Configure a new Input named "Interact-Vehicle", check for `Input.GetButton("Interact-Vehicle")` instead of `Input.GetKey(KeyCode.F)`
-
-### BONUS: Clean Up Responsibilities between Player and Car:
-- The Player should have a Script to Try to Enter Vehicles, maybe name it `Driver`?
-- The Vehicle should not check for the Player Entering the Car on `Update`, but instead have a public `Enter` and `Exit` Method.
-- The Car needs to check for leaving the Vehicle in the `CarMovement`-Script.
-- This one's a bit tricky and vague, but we'll look at it tomorrow! :)
-
+IGNORE THE EXERCISE BELOW, THEY WILL BE MOVED TO LATER!
 
 ## Done?
 Return to the [Overview](../../../#3-serialization)
