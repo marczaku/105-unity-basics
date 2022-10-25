@@ -1,4 +1,6 @@
-## 1. Serialization
+# 3. Unity Serialization
+
+## 3.1. Serialization
 
 <img width="458" alt="image" src="https://user-images.githubusercontent.com/7360266/139729499-5ebbb37e-2f5e-4d05-938d-0cb5969c369f.png">
 
@@ -11,7 +13,7 @@
 - HARD DRIVE is SLOW, but LARGE and PERSISTENT
 ---
 
-## 2. Deserialization
+## 3.2. Deserialization
 
 <img width="459" alt="image" src="https://user-images.githubusercontent.com/7360266/139729749-1808d698-0721-4253-98e7-e389c5974aee.png">
 
@@ -21,7 +23,7 @@
 
 ---
 
-## 3. Unity Serialization
+## 3.3. Unity Serialization
 
 - Unity needs to serialize anything that you CHANGE in the Editor and then SAVE
   - Scenes
@@ -36,7 +38,7 @@
 
 ---
 
-## 4. Unity Deserialization
+## 3.4. Unity Deserialization
 
 - Unity needs to deserialize anything that you LOAD or OPEN from the Hard Drive
   - Scenes
@@ -51,7 +53,7 @@
 
 ---
 
-## 5. GIT
+## 3.5. GIT
 
 <img width="406" alt="image" src="https://user-images.githubusercontent.com/7360266/139730422-db2a14dd-2494-41bb-a173-f70fdf7fc38d.png">
 
@@ -61,7 +63,7 @@
 
 ---
 
-## 6. Empty Scene
+## 3.6. Empty Scene
 
 If we Create a new Scene In Unity, Save it as `EmptyScene` and then open the `EmptyScene.unity` File in a Text-Editor, we will see...
 
@@ -72,7 +74,7 @@ The format that we see the information written in here, is called `YAML`
 
 ---
 
-## 7. Empty Scene - 2
+## 3.7. Empty Scene - 2
 
 If we fold all the information, we can see...
 - It‘s just per scene settings that can be grouped into four categories:
@@ -89,7 +91,7 @@ If we fold all the information, we can see...
 
 ---
 
-## 8. GameObject
+## 3.8. GameObject
 
 - A GameObject is serialized by being given a UniqueID (here: `&1049995125`)
 - And saving its relevant Fields
@@ -107,7 +109,7 @@ You will see in the sample, that all Fields are written `m_{FieldName}` this is 
 
 ---
 
-## 9. Components
+## 3.9. Components
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/7360266/139732505-53115f51-e66d-4b79-ab1f-fccf152f43d2.png">
 
@@ -123,7 +125,7 @@ This is, how Unity knows, when Loading the Scene, what Component belongs to whic
 
 ---
 
-## 10. Transform
+## 3.10. Transform
 
 - A transform has its values serialized:
   - localRotation
@@ -140,7 +142,7 @@ This is, how Unity knows, when Loading the Scene, what Component belongs to whic
 
 ---
 
-## 11. Monobehaviour
+## 3.11. Monobehaviour
 
 <img width="362" alt="image" src="https://user-images.githubusercontent.com/7360266/139732811-937cca22-076c-46b1-b53d-293b846b7230.png">
 
@@ -163,7 +165,7 @@ This is, how Unity knows, when Loading the Scene, what Component belongs to whic
 
 ---
 
-## 11. Fields
+## 3.12. Fields
 
 
 - Fields of your MonoBehaviours will be serialized if:
@@ -197,7 +199,7 @@ You will then find your Serialized Fields Saved in your Serialized Component in 
 
 ---
 
-## 12. Properties
+## 3.13. Properties
 
 - Properties are NOT serialized
 - They are technically just Getter & Setter Methods (Remember?)
@@ -210,7 +212,7 @@ public int PublicProperty { get; set; }
 
 ---
 
-## 13. Classes
+## 3.14. Classes
 
 - Your Custom Classes will not be serialized
 - Even, if they are used as Type of a public field
@@ -228,7 +230,7 @@ public SomeClass classInstance;
 
 ```cs
 [System.Serializable]
-public class Serializable Class {
+public class SerializableClass {
    public int someValue = 27;
  }
  
@@ -243,7 +245,7 @@ Again, you will find the Serializable Field both in the Inspector and the Scene-
 
 ---
 
-## 14. Arrays
+## 3.15. Arrays
 
 - Unity can serialize 
   - Arrays of Basic Types
@@ -271,10 +273,28 @@ And they are saved in the Scene-File.
 
 <img width="393" alt="image" src="https://user-images.githubusercontent.com/7360266/139744258-3eea0a0b-b93a-4582-93c0-d1f27658181f.png">
 
+### 3.15.1 Lists
+
+Hint, the same as above goes for Generic Lists:
+
+```cs
+// generic lists can be serialized:
+public List<int> publicArrayField = {
+  0x11223344, 3, 2
+};
+public List<string> publicStringArrayField = {
+  "Hello", "world", "!"
+};
+public List<SerializableClass> publicSerializableClassArray = {
+  new SerializableClass(12),
+  new SerializableClass(19),
+};
+```
+
 
 ---
 
-## 15. UnityEngine.Object
+## 3.16. UnityEngine.Object
 
 
 - Fields of UnityEngine.Objects are serialized as References
@@ -289,7 +309,7 @@ public GameObject gameObject;
 public Object anyObject;
 ```
 
-You can then reference Instances throught the Circle Icon, or by Drag-Dropping an Asset or a Scene-Instance to the Field.
+You can then reference Instances through the Circle Icon, or by Drag-Dropping an Asset or a Scene-Instance to the Field.
 
 <img width="427" alt="image" src="https://user-images.githubusercontent.com/7360266/139744520-692ecb0c-8833-4100-9012-e5929b12dd9a.png">
 
@@ -302,7 +322,7 @@ You can then reference Instances throught the Circle Icon, or by Drag-Dropping a
 
 ---
 
-## 16. Other Cases
+## 3.17. Other Cases
 
 - UNITY CAN SERIALIZE:
   - `List<T>`
@@ -313,7 +333,9 @@ You can then reference Instances throught the Circle Icon, or by Drag-Dropping a
 
 ---
 
-## 1. Part of a Scene
+# 4. GameObject Lifetime
+
+## 4.1. Part of a Scene
 
 - `GameObjects` can be part of a scene
 - They exist as a Template in the editor
@@ -328,7 +350,7 @@ You can then reference Instances throught the Circle Icon, or by Drag-Dropping a
 
 ---
 
-## 2. Part of a Prefab
+## 4.2. Part of a Prefab
 
 - `GameObjects` can be part of a prefab
 - They exist as a Template in the prefab edit mode
@@ -347,7 +369,7 @@ You can then reference Instances throught the Circle Icon, or by Drag-Dropping a
 
 ---
 
-## 3. Created Through Code
+## 4.3. Created Through Code
 
 - `GameObjects` can be created through a script
 - Their lifetime starts when your code gets executed
@@ -368,7 +390,7 @@ void CreateView() {
 
 ---
 
-## 4. GameObject Lifetime (simplified)
+## 4.4. GameObject Lifetime (simplified)
    
 - You can react to a `GameObject`‘s lifetime
 - Using Unity Event functions
@@ -420,7 +442,7 @@ Once, when Unloading (through Destroying the GameObject, Changing the Scene or Q
 
 ---
 
-## 5. Disabling GameObjects
+## 4.5. Disabling GameObjects
 
 You can disable GameObjects:
 
@@ -457,7 +479,7 @@ Disabling `GameObjects` automatically disables that `GameObject's` children as w
 
 ---
 
-## 6. Destroying GameObjects
+## 4.6. Destroying GameObjects
 
 You can destroy GameObjects:
 
@@ -481,7 +503,7 @@ Destroying GameObjects automatically destroys that GameObject‘s children as we
 
 ---
 
-## 7. Instantiating Prefabs
+## 4.7. Instantiating Prefabs
 
 You can instantiate Prefabs:
 
@@ -514,7 +536,7 @@ When Instantiating a Prefab, it becomes part of the currently active scene
 
 ---
 
-## 8. (Un-)Loading Scenes
+## 4.8. (Un-)Loading Scenes
 
 You can Load a Scene:
 
@@ -570,7 +592,7 @@ Make sure, to put the Scene first (At Index 0), that you want to start the Game 
 
 ---
 
-## 9. Quitting the Game
+## 4.9. Quitting the Game
 
 You Can Quit the Game:
 

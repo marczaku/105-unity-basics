@@ -1,7 +1,9 @@
-# Exercises 012 Unity Serialization Basics
+# Exercises 3 - Serialization
 
-## Slides
-Need Help? [Here's The Slides!](slides/README.md#1-serialization)
+## 3. - Serialization
+
+### Slides
+Need Help? [Here's The Slides!](slides/README.md#3-serialization)
 
 ### Set Up
 
@@ -37,10 +39,12 @@ Need Help? [Here's The Slides!](slides/README.md#1-serialization)
 - Update should look like this:
 ```cs
 void Update() {
-   if(PlayerIsInCar()) {
-      LeaveCar();
-   } else {
-      EnterCar();
+   if(EnterCarButtonPressed()){
+        if(PlayerIsInCar()) {
+            LeaveCar();
+        } else {
+            EnterCar();
+        }
    }
 }
 ```
@@ -57,15 +61,13 @@ void Update() {
 - The Player should have a Script to Try to Enter Vehicles, maybe name it `Driver`?
 - The Vehicle should not check for the Player Entering the Car on `Update`, but instead have a public `Enter` and `Exit` Method.
 - The Car needs to check for leaving the Vehicle in the `CarMovement`-Script.
-- This one's a bit tricky and vague, but we'll look at it tomorrow! :)
 
 ---
 
-# Exercises 011 Unity GameObject Lifetime
+## 4. GameObject Lifetime
 
-## Preparation
-
-Read the slides on [011 - Unity GameObject Lifetime](../slides/011-unity-gameobject-lifetime.md)
+### Slides
+Need Help? [Here's The Slides!](slides/README.md#4-gameobject-lifetime)
 
 ## Spawn a Car
 

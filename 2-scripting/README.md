@@ -208,7 +208,7 @@ We will begin with a Small Theft Auto Prototype and implement Movement forward a
 
 <img width="156" alt="image" src="https://user-images.githubusercontent.com/7360266/137805960-04b2da02-5785-4fdd-aa49-09cdcf195053.png">     <img width="90" alt="image" src="https://user-images.githubusercontent.com/7360266/137805943-bf9c3476-21bb-4d3c-a551-e1fc7c1e0e22.png">   
 
-- Add a Directional Light to the Scene
+- Open up your `SanAndreas` Scene that you created in `1 - The Editor`
 - Create a GameObject for the Player
   - I have built one using an Empty Parent GameObject named Player
   - A 3D-Cube as a child that's scaled on the X-Axis, named Body
@@ -233,7 +233,7 @@ void Update() {
 - `Update` is called every Frame. Which means that on good computers, it might be called 54 times per second (54 FPS = 54 Frames per Second) and on worse ones only 31 times per second.
 - `Input` is a `class` Unity provides for Common Input-Handling functionality. It is technically not `static`, but all Fields, Properties and Methods are, so it kind of is, too.
 - `static bool GetKey(KeyCode keyCode)` is a static method that returns `true`, if the `KeyCode`, which is passed as an argument, is currently pressed.
-- `transform` is a `Property` on every `MonoBehaviour`-Class that accesses the `Transform`-Component from the same `GameObject` that the `MonoBehaviour` is attched to.
+- `transform` is a `Property` on every `MonoBehaviour`-Class that accesses the `Transform`-Component on the same `GameObject` that the `MonoBehaviour` is attached to.
 - `void Translate(float x, float y, float z)` is the easiest method for moving a `Transform` into any direction. It resembles teleporting the `Transform`, which can lead to weird, glitchy behavior like moving through a very thin wall, if used carelessly.
 
 - Start the Game to see, that the `Player` now walks up towards the top of the Screen.
@@ -257,8 +257,6 @@ Solve it!
 Use `float Input.GetAxis(string name);` instead of `bool Input.GetKey(KeyCode keyCode);`
 
 ---
-
-IGNORE THE EXERCISE BELOW, THEY WILL BE MOVED TO LATER!
 
 ## Done?
 Return to the [Overview](../../../#3-serialization)

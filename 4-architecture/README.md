@@ -173,7 +173,7 @@ The `Enter`-Method:
 - Enables the `VehicleMovement`-Component on its own GameObject using `GetComponent<T>`
 
 The `Vehicle`:
-- In `Update` aalso checks, if `F` is Pressed Down.
+- In `Update` also checks, if `F` is Pressed Down.
 - If so, you check, whether the `driver` field is null or not.
 - If not, then you call `Leave`
 
