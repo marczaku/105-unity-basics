@@ -23,7 +23,8 @@ Need Help? [Here's The Slides!](slides/README.md#3-serialization)
 - Create a new C# Script named `Vehicle` and add it to the `Car`-GameObject.
 - Add a `public` field of type `GameObject` named `player` to the Script. Reference the `Player`-GameObject in the Scene.
 - Add a `public` field of type `CarMovement` named `carMovement` to the Script. Reference the `CarMovement`-GameObject in the Scene.
-- In `Update`, check, whether the `F` key is being Pressed.
+- In `Update`, check, whether the `F` key has just been pressed.
+  - There's a function similar to `Input.GetKey()` for this.
 - If so, check, whether the `player`-GameObject's `isActiveInHierarchy`-Property is `true`
   - If `true`, then the `player` is not in the Vehicle and we should let him "Enter":
     - Set the `player`-GameObject inactive by invoking its `SetActive` method with the value `false` to Hide the Player.

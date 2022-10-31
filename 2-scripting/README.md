@@ -109,6 +109,8 @@ We'll add a Dead Zone underneath the plane which holds the tower and make it a l
 
 If anything collides with that Dead Zone, it must mean, that a Brick crashed.
 
+If that happened, we will Log a Game Over output and then restart the Game by reloading the active Scene.
+
 ### Slides
 Need Help? [Here's The Slides!](slides/README.md#2-event-functions)
 
@@ -129,13 +131,16 @@ Need Help? [Here's The Slides!](slides/README.md#2-event-functions)
   - Within the Method body, which only gets invoked as soon as any Object as collided with the Dead Zone:
     - Invoke `Debug.Log` and pass `"The tower collapsed. You lose."`
     - Add the following expression for restarting the Scene: `SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);`
+    - Note: `SceneManager` lies in namespace `UnityEngine.SceneManagement`. So, in order for above code to compile, you need to make sure that you `include` said namespace at the top of your file. (Rider will often do this automatically for you)
 - Don't forget to attach the `DeadZone` Script to our `Dead Zone` GameObject!
 - Test it!
 
 ## 2.2 - Event Functions (Start)
 
 ### Goal
-That tower is way too tidy! Let's make a script that makes our bricks less perfectly shaped and less perfectly positioned :)
+That tower is way too tidy! Let's make a script that makes our bricks less perfectly positioned by moving them randomly forward or backward a bit.
+
+We will achieve this by adding a `Start` Event Method to a Script that we attach to each Brick. In that Start Method, we'll access the `Transform` component on the same GameObject and add a random offset to its `position`
 
 ### Slides
 Need Help? [Here's The Slides!](slides/README.md#2-event-functions)
@@ -147,15 +152,15 @@ Need Help? [Here's The Slides!](slides/README.md#2-event-functions)
 - Implement the Start Unity Event Method in your Script
   - Find the correct signature (return type, method name, parameters) on the slides for Start
   - Within the Method body, which only gets invoked once when the Game Starts:
-    - The Property `Transform transform {get;}` allows us to access our `Transform` Component, which holds our position.
-    - `Transform` has a Property `Vector3 position {get;set;}` with which we can change the `x`, `y` and `z` coordinates of our position.
-    - We can use the `+=` operator to change the position in a certain direction.
-    - `Transform` also has a Property `Vector3 right {get;}` which returns the direction of the Transform's right side (which is always different depending on the GameObject's rotation)
+    - The Property `Transform transform {get;}` that your script inherits from class `Component` allows us to access the `Transform` Component on the same GameObject as your Script instance.
+    - `Transform` class has a Property `Vector3 position {get;set;}` with which we can change the `x`, `y` and `z` coordinates of our position.
+    - We can use the `+=` operator to add a `Vector3` to our position, which will move the `position` in that direction.
+    - `Transform` class also has a Property `Vector3 right {get;}` which returns the direction of the Transform's right side (which is always different depending on the GameObject's rotation)
     - If we would add the whole `right` Vector to our `position`, each brick would move a whole Unity Unit in distance (remember, a Brick is 3 Units long and 1 wide, so that'd be way too much)
     - We also want them all to have some random offsets, sometimes in one, sometimes in the other direction
     - So we can multiply the `right` Vector with a random `float`:
-    - `transform.right * Random.Range(-.1f,.1f)`
-    - This way, each Brick will receive a random offset. Sometimes .1 to the left side, sometimes .1 to the right side, sometimes 0.
+    - ` * Random.Range(-.1f,.1f)`
+    - This way, each Brick will receive a random offset. Sometimes .1 to the left side, sometimes .1 to the right side, sometimes 0 or anything in between.
 - Don't forget to attach the `Brick` Script to your `Brick` Prefab. Not on one or each of the Game Objects in the Scene, but on the Prefab in your Project Window.
 - Test it!
 
@@ -197,7 +202,7 @@ Remove the `EventTrigger` Component from the `Brick` Prefab in the Project View,
 
 Test it! :)
 
-Note: What Feature of the game broke now? Can you fix it? Do you face additional problems?
+Note: You might notice, that some previous features broke now or became very inconvenient. Feel free to disable or ignore them.
 
 ## 2.4 - Event Functions (Update)
 
@@ -253,7 +258,7 @@ Make the Player turn right, when `D` is pressed
 What problem exists again with `Update`, Movement and Frame-Rate (FPS)?\
 Solve it!
         
-### Using the Input Manager
+### Use the Input Manager
 Use `float Input.GetAxis(string name);` instead of `bool Input.GetKey(KeyCode keyCode);`
 
 ---

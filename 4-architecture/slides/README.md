@@ -511,7 +511,7 @@ public class Item : ScriptableObject {
 - Classes have even slightly less overhead than ScriptableObjects!
 - Classes can be part of MonoBehaviours
 - But Classes can not be shared between multiple MonoBehaviours
-- ScriptableObjects can be created in the project view
+- ScriptableObjects can be created as an asset in the project view
 - And then drag‘n‘dropped onto multiple MonoBehaviour-Fields
 
 ---

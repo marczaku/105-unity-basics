@@ -1,31 +1,95 @@
-# 3. Unity Serialization
+# Slides 3 - Scripting
 
-## 3.1. Serialization
+## 3. Serialization
+
+## What's Serialization?
+
+### Serialization
 
 <img width="458" alt="image" src="https://user-images.githubusercontent.com/7360266/139729499-5ebbb37e-2f5e-4d05-938d-0cb5969c369f.png">
 
-- **The process of **
+- Our objects are stored in Runtime Memory (RAM)
+  - The RAM is FAST, but: SMALL and NON-PERSISTENT
+- On our Hard Drive, we can Write Bytes
+  - The Hard Drive is SLOW, but: LARGE and PERSISTENT
+- Over our Network Adapter, we can also send Bytes
+
+That's what Serialization is:
+
+- The process of
   - READING an object from Memory
   - CONVERTING IT to bytes
-- Bytes may be readable text or Binary
-- We can save Bytes or send them
-- RAM is FAST, but SMALL and RESETS
-- HARD DRIVE is SLOW, but LARGE and PERSISTENT
----
 
-## 3.2. Deserialization
+### Types of Serialization
+
+Let's look at ways of serializing following object:
+
+```cs
+int i = int.MaxValue;
+```
+
+#### String Serialization
+
+Idea: We convert the object to a human-readable string and save that.
+
+```cs
+File.WriteAllText("save", i.ToString());
+```
+
+- Result: `"2147483647"`
+- Encoding: ASCII
+- Binary: `00110010 00110001 00110100 00110111 00110100 00111000 00110011 00110110 00110100 00110111 `
+- Size: 10 bytes
+
+Advantages:
+- Human-Readable
+- Better merge-able in git
+
+#### Binary Serialization
+
+```cs
+File.WriteAllBytes("save", BitConverter.GetBytes(i));
+```
+
+Result: `"ÿÿÿ�"`
+Binary: `11111111 11111111 11111111 01111111`
+Size: 4 bytes (size of `int`)
+
+Advantages:
+- More Compressed
+- Better Performance
+
+### Deserialization
 
 <img width="459" alt="image" src="https://user-images.githubusercontent.com/7360266/139729749-1808d698-0721-4253-98e7-e389c5974aee.png">
 
-- **The process of **
+- From our Hard Drive, we can Read Bytes into Memory
+  - So we can use it in our Code
+- Over our Network Adapter, we can also receive Bytes
+
+But first, we need to use Serialization to convert it to an object in Memory again:
+
+- The process of
   - READING bytes from Hard Drive or Network
   - CONVERTING it to an object in memory
 
+#### String Deserialization
+
+```cs
+int i = BitConverter.ToInt32(File.ReadAllBytes("save"));
+```
+
+#### Binary Deserialization
+
+```cs
+int i = Convert.ToInt32(File.ReadAllText("save"));
+```
+
 ---
 
-## 3.3. Unity Serialization
+## Unity Serialization
 
-- Unity needs to serialize anything that you CHANGE in the Editor and then SAVE
+- Unity needs to serialize anything that you CHANGE in the Editor and then SAVE to the Hard Drive:
   - Scenes
   - Prefabs
   - GameObjects
@@ -34,11 +98,13 @@
   - Build Settings
   - Import Settings
 
-<img width="299" alt="Screenshot 2021-11-01 at 20 31 54" src="https://user-images.githubusercontent.com/7360266/139730157-7c85663d-2a0c-4dab-a68d-17b6fda330d6.png">
+This ensures, that:
+- your changes still exist even after shutting down Unity or restarting your computer
+- you can share your changes with your colleagues over a network
 
 ---
 
-## 3.4. Unity Deserialization
+## Unity Deserialization
 
 - Unity needs to deserialize anything that you LOAD or OPEN from the Hard Drive
   - Scenes
@@ -49,11 +115,11 @@
   - Build Settings
   - Import Settings
 
-<img width="299" alt="Screenshot 2021-11-01 at 20 31 54" src="https://user-images.githubusercontent.com/7360266/139730259-128fb066-9a4d-4bae-b852-7a1e2052b6cb.png">
+This ensures, that after starting Unity:
+- all your changes are restored to where you left off before you quit Unity.
+- all changes downloaded from your colleagues are synchronized with your Editor.
 
----
-
-## 3.5. GIT
+## Unity Serialization & Git
 
 <img width="406" alt="image" src="https://user-images.githubusercontent.com/7360266/139730422-db2a14dd-2494-41bb-a173-f70fdf7fc38d.png">
 
@@ -61,9 +127,48 @@
 - If you make changes in the editor, there is nothing to commit, yet
 - If you save your changes, the changes are serialized and written to the Hard Drive, so you can commit them
 
----
+## YAML
 
-## 3.6. Empty Scene
+```
+YAML is a human-friendly data serialization
+  language for all programming languages.
+```
+
+It is a standardized approach to serializing objects in a human-readable way.
+
+Before standards like YAML, every company would "invent" their own interpretations of how to serialize an object.
+
+e.g. an Object like:
+
+```cs
+public class Player{
+  string name = "Marc";
+  int health = 5;
+  int strength = 12;
+}
+```
+
+Might be serialized by one company as:
+
+```
+Marc:5,12
+```
+
+But by another one:
+
+```
+Name:Marc;Health:5;Strength:12
+```
+
+In YAML, it would look like this:
+
+```yaml
+name: Marc
+health: 5
+strength: 12
+```
+
+## An Empty Scene
 
 If we Create a new Scene In Unity, Save it as `EmptyScene` and then open the `EmptyScene.unity` File in a Text-Editor, we will see...
 
@@ -71,10 +176,6 @@ If we Create a new Scene In Unity, Save it as `EmptyScene` and then open the `Em
 
 It is not so empty!\
 The format that we see the information written in here, is called `YAML`
-
----
-
-## 3.7. Empty Scene - 2
 
 If we fold all the information, we can see...
 - It‘s just per scene settings that can be grouped into four categories:
@@ -85,13 +186,12 @@ If we fold all the information, we can see...
 
 <img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139732098-18253f00-8108-4a16-98c2-4531b7617ca4.png">
 
+Those are Per-Scene Settings. As in, settings that can be edited for each scene.
 - You can find most of these settings under Window > Rendering
 
 <img width="385" alt="image" src="https://user-images.githubusercontent.com/7360266/139732118-9d0ee7c5-ec1e-471a-a6e3-d26544ec122a.png">
 
----
-
-## 3.8. GameObject
+## GameObject
 
 - A GameObject is serialized by being given a UniqueID (here: `&1049995125`)
 - And saving its relevant Fields
@@ -107,13 +207,11 @@ You will see in the sample, that all Fields are written `m_{FieldName}` this is 
 
 <img width="279" alt="image" src="https://user-images.githubusercontent.com/7360266/139732215-07c265a8-11f3-4cb6-949d-73860b67dde4.png">
 
----
-
-## 3.9. Components
+## Components
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/7360266/139732505-53115f51-e66d-4b79-ab1f-fccf152f43d2.png">
 
-- Every GameObject has a Transform in Unity!
+- Every `GameObject` has a `Transform` in Unity!
 - It is saved as one of its Components
 - The gameObject has a reference to its component: `- component: {fileID: 1049995127}`
 - The component has an ID: `--- !u!4 &1049995127`
@@ -121,11 +219,9 @@ You will see in the sample, that all Fields are written `m_{FieldName}` this is 
 
 <img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139732511-5352d036-4006-40e1-898b-f494e5a928ef.png">
 
-This is, how Unity knows, when Loading the Scene, what Component belongs to which GameObject.
+This is, how Unity knows, when Loading the Scene, which Component belongs to which GameObject.
 
----
-
-## 3.10. Transform
+## Transform Component
 
 - A transform has its values serialized:
   - localRotation
@@ -140,9 +236,7 @@ This is, how Unity knows, when Loading the Scene, what Component belongs to whic
 
 <img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139732722-fae4342e-9576-46e7-9006-b63f248c49e2.png">
 
----
-
-## 3.11. Monobehaviour
+## Monobehaviour Component
 
 <img width="362" alt="image" src="https://user-images.githubusercontent.com/7360266/139732811-937cca22-076c-46b1-b53d-293b846b7230.png">
 
@@ -157,64 +251,77 @@ This is, how Unity knows, when Loading the Scene, what Component belongs to whic
 
 <img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139732833-d514f105-2d05-476e-bb3f-77b1532f4813.png">
 
-- m_Script will point at the GUID of your script
+- `m_Script` will point at the GUID of your script
 - which is stored in the `.meta` File with the same Name
   - e.g. `Vehicle.cs` has a matching `Vehicle.cs.meta`-File.
+  - Unity creates these files automatically when you add a new File to the Project
 
 <img width="342" alt="image" src="https://user-images.githubusercontent.com/7360266/139732792-80437530-32b1-42d6-b8fc-10e54f8fece0.png">
 
----
-
-## 3.12. Fields
-
+### Fields
 
 - Fields of your MonoBehaviours will be serialized if:
-  - They are a basic type AND:
-  - They are Public (implicit) OR
+  - They are serializable (more on that later)
+  - They are `public` (implicit) OR
   - They have an explicit [SerializeField] Attribute
-- They will not be serialized if:
-  - They are private and do not have an attribute
-  - They are static
+
+Public fields are automatically serialized by Unit:
 
 ```cs
-// public fields are serialized:
 public int publicField = 6;
-// private fields are not serialized:
-int privateField;
-// SerializeField makes sure that private fields are
-// serialized and shown in the inspector
-// it is useful to avoid that other classes
-// have access to this field
-[SerializeField]
-private int privateSerializedField = 7;
 ```
 
-You will find your Serialized Fields in the Inspector. Since the Field will be Saved later, it makes sense to be able to change the value in the Editor.
+If you want to prevent this, you can use the `[HideInInspector]`-Attribute:
+
+```cs
+[HideInInspector] public int publicUnSerializedField = 6;
+```
+
+Private Fields are not serialized:
+
+```cs
+private int privateField = 12;
+```
+
+Unless you mark them with a `[SerializeField]`-Attribute:
+```cs
+[SerializeField] private int privateSerializedField = 7;
+```
+
+Static Fields are not serialized:
+```cs
+public static int publicStaticField = 12;
+```
+
+You will find your Serialized Fields in the Inspector. This allows you to change the values that are stored on your instance of the script:
 
 <img width="439" alt="image" src="https://user-images.githubusercontent.com/7360266/139733238-d75e5fd6-e7c8-4b4d-9dfa-2a1600beb262.png">
 
-You will then find your Serialized Fields Saved in your Serialized Component in the Scene-File
+You will then find your serialized fields saved in your serialized `MonoBehaviour`-Object in the Scene-File:
 
 <img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139733244-29767576-605a-46f2-9a4c-05f9820270a7.png">
 
----
+### Methods
 
-## 3.13. Properties
+Methods are not serialized.
 
-- Properties are NOT serialized
+```cs
+public void GetMaxHealth() => 100;
+```
+
+### Properties
+
+Properties are NOT serialized.
 - They are technically just Getter & Setter Methods (Remember?)
 - And Methods are not serialized
 
 ```cs
-// properties are not serialized
 public int PublicProperty { get; set; }
 ```
 
----
+### Classes
 
-## 3.14. Classes
-
-- Your Custom Classes will not be serialized
+Your Custom Classes will not be serialized
 - Even, if they are used as Type of a public field
 ```cs
 public class SomeClass {
@@ -224,17 +331,17 @@ public class SomeClass {
 public SomeClass classInstance;
 ```
 
-- Unless you mark the class explicitly
-  - With a [System.Serializable] Attribute
-  - Unity will now know, that you want to Serialize this Class, whenever it is used as a serialized field
+Unless you mark the class explicitly
+- With a [System.Serializable] Attribute
+- Unity will now know, that you want to Serialize this Class, whenever it is used as a serialized field
 
 ```cs
 [System.Serializable]
 public class SerializableClass {
-   public int someValue = 27;
- }
+  public int someValue = 27;
+}
  
- public SerializableClass serializableClassInstance;
+  public SerializableClass serializableClassInstance;
 ```
 
 Again, you will find the Serializable Field both in the Inspector and the Scene-File:
@@ -243,65 +350,64 @@ Again, you will find the Serializable Field both in the Inspector and the Scene-
 
 <img width="385" alt="image" src="https://user-images.githubusercontent.com/7360266/139734533-e79bc4b2-7039-4766-89a8-abbe4f0cc424.png">
 
----
+#### Deserialization does not maintain same object instances:
 
-## 3.15. Arrays
-
-- Unity can serialize 
-  - Arrays of Basic Types
-  - Arrays of Serializable Classes
+Warning: Classes are always deserialized as copies, not as shared instances:
 
 ```cs
-// arrays can be serialized:
-public int[] publicArrayField = {
-  0x11223344, 3, 2
-};
-public string[] publicStringArrayField = {
-  "Hello", "world", "!"
-};
-public SerializableClass[] publicSerializableClassArray = {
-  new SerializableClass(12),
-  new SerializableClass(19),
-};
-```
-
-You can edit them in the Inspector.
-
-<img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139744269-463899ff-9ba2-4f5a-ba39-a5f8f257e5b6.png">
-
-And they are saved in the Scene-File.
-
-<img width="393" alt="image" src="https://user-images.githubusercontent.com/7360266/139744258-3eea0a0b-b93a-4582-93c0-d1f27658181f.png">
-
-### 3.15.1 Lists
-
-Hint, the same as above goes for Generic Lists:
+public class Weapon{
+  public string name;
+}
 
 ```cs
-// generic lists can be serialized:
-public List<int> publicArrayField = {
-  0x11223344, 3, 2
-};
-public List<string> publicStringArrayField = {
-  "Hello", "world", "!"
-};
-public List<SerializableClass> publicSerializableClassArray = {
-  new SerializableClass(12),
-  new SerializableClass(19),
-};
+public class Player : UnityEngine.MonoBehaviour{
+   public Weapon weapon;
+}
 ```
 
+```cs
+Weapon weapon = new Weapon();
+player1.weapon = weapon;
+player2.weapon = weapon;
+player1.weapon.name = "Axe";
+```
 
----
+After above script, both players will have a reference to the same weapon instance with the name `"Axe"`.
 
-## 3.16. UnityEngine.Object
+But after reloading the scene, if you were to do:
 
+```cs
+player1.weapon.name = "Dagger";
+```
 
-- Fields of UnityEngine.Objects are serialized as References
-- That is because UnityEngine.Objects are serialized themselves as part of either
-  - The Project
-  - A Scene
-  - A Prefab
+Then only player1's Weapon's name would change.
+
+#### Deserialization does not maintain `null` values
+
+Also, Unity always creates an object instance when deserializing a Field:
+
+```cs
+player1.weapon = null;
+```
+
+After reloading the scene, if you were to print:
+
+```cs
+Debug.Log(player.weapon == null);
+```
+
+It would print:
+```
+false
+```
+
+### UnityEngine.Object
+
+- Fields of a Type inheriting from `UnityEngine.Object` are serialized as References
+- That is because `UnityEngine.Objects` are serialized themselves as part of either
+  - The Project, e.g. `Texture2D`, `Sprite`
+  - A Scene, e.g. `Camera` on the Main Camera in a Scene.
+  - A Prefab, e.g. `BoxCollider` on a Prefab Asset.
 
 ```cs
 public HelloWorld helloWorld;
@@ -320,77 +426,123 @@ You can then reference Instances through the Circle Icon, or by Drag-Dropping an
 <img width="446" alt="image" src="https://user-images.githubusercontent.com/7360266/139744531-630060cf-0ddc-4397-9824-40a6a5b287f1.png">
 
 
----
+### Arrays
 
-## 3.17. Other Cases
+Unity can serialize Arrays. This is very useful to serialize anything that you want to have a variable count of, e.g.
+- an `int[]` for the experiences needed for level up
+  - there might be only 10 levels in your Game now, but it might be 20 later.
+- a `string[]` containing AI player names, which will be randomized when
 
-- UNITY CAN SERIALIZE:
+```cs
+public int[] publicArrayField = {
+  0x11223344, 3, 2
+};
+public string[] publicStringArrayField = {
+  "Hello", "world", "!"
+};
+```
+
+```cs
+public SerializableClass[] publicSerializableClassArray = {
+  new SerializableClass(12),
+  new SerializableClass(19),
+};
+```
+
+```cs
+public GameObject[] monsterPrefabs;
+public Transform[] spawnPoints;
+```
+
+You can edit them in the Inspector.
+
+<img width="353" alt="image" src="https://user-images.githubusercontent.com/7360266/139744269-463899ff-9ba2-4f5a-ba39-a5f8f257e5b6.png">
+
+And they are saved in the Scene-File.
+
+<img width="393" alt="image" src="https://user-images.githubusercontent.com/7360266/139744258-3eea0a0b-b93a-4582-93c0-d1f27658181f.png">
+
+#### Others
+
+- Unity can serialize fields of Type:
   - `List<T>`
   - Generic Classes
-- UNITY CAN NOT SERIALIZE:
+- Unity can not serialize fields of Type:
   - `Dictionary<TKey, TValue>`
   - Interfaces :(
+  - Delegate
 
 ---
 
-# 4. GameObject Lifetime
+## 4. GameObject Lifetime
 
-## 4.1. Part of a Scene
+### Part of a Scene
 
-- `GameObjects` can be part of a scene
+`GameObjects` can be part of a scene
 - They exist as a Template in the editor
 <img width="371" alt="image" src="https://user-images.githubusercontent.com/7360266/139598025-c116ed41-6018-46bb-8d30-d92de314978e.png">
 
-- They are saved in the .unity scene file
+They are saved in the .unity scene file
 <img src="https://user-images.githubusercontent.com/7360266/139598026-2161e769-2f09-412c-8700-0e45c646872a.png" width="300" height="300">
 
-- Their lifetime starts when the scene is loaded in PlayMode
-- Their lifetime ends when the scene is unloaded / another scene is loaded
-- If the scene is currently open, it will automatically be loaded, when PlayMode is entered
+- START: when the scene is loaded in PlayMode
+- DESTROY: 
+  - you destroy it via code: `Destroy(gameObject);`
+  - the scene is unloaded / another scene is loaded
+    - you can prevent this by invoking: `DontDestroyOnLoad(gameObject);`
+  - you quit the game (which unloads the scene)
 
----
+You should use scene to create separate levels / menus of your game which can be loaded one by one or additively.
 
-## 4.2. Part of a Prefab
+### Part of a Prefab
 
-- `GameObjects` can be part of a prefab
+`GameObjects` can be part of a prefab
 - They exist as a Template in the prefab edit mode
 <img width="371" alt="image" src="https://user-images.githubusercontent.com/7360266/139598052-ccc56543-0de3-4359-965a-c587d2ad79cd.png">
 
-- They are saved in the .prefab prefab file
+They are saved in the `.prefab` file
 <img src="https://user-images.githubusercontent.com/7360266/139598026-2161e769-2f09-412c-8700-0e45c646872a.png" width="300" height="300">
 
-- Their lifetime starts when you Instantiate the prefab during PlayMode
-- Their lifetime ends when 
-  - you Destroy it
-  - another scene is loaded 
-    - (which will also destroy all current Scene's GameObjects)
-  - you quit the game
-    - (which will also unload the current Scene)
+- START: when you Instantiate the prefab during PlayMode
+- DESTROY: same as before
 
----
+```cs
+using UnityEngine;
+public class MonsterSpawner : MonoBehaviour {
+  // reference assigned through Inspector
+  public GameObject monsterPrefab;
 
-## 4.3. Created Through Code
+  void FixedUpdate() {
+    Instantiate(monsterPrefab);
+  }
+}
+```
 
-- `GameObjects` can be created through a script
-- Their lifetime starts when your code gets executed
-- Their lifetime ends when you Destroy it / another scene is loaded
+You should use prefabs when you want to instantiate objects during runtime. You can then dynamically instantiate the prefab:
+- 0 times, if you don't need it right now
+- 1 time, if you only need one instance
+- 100 times, if you want to spawn e.g. a hundred monsters
+
+### Created Through Code
+
+`GameObjects` can be created through a script
+- START: when your code gets executed
+- DESTROY: same as before
 
 
 ```cs
 void CreateView() {
-   GameObject parent = new GameObject("GoldView");
-   GameObject child = new GameObject("GoldViewChild");
-   child.transform.SetParent(parent.transform);
-   Text text = child.AddComponent<Text>();
+   GameObject goldView = new GameObject("GoldView");
+   GameObject goldLabel = new GameObject("GoldItem");
+   goldLabel.transform.SetParent(goldView.transform);
+   Text text = goldLabel.AddComponent<Text>();
    text.text = "This is a gold view.";
 }
 ```
 
-- This is not a recommended way, as designers can not make changes to GameObjects this way
+This is not a recommended way, since designers can't contribute to GameObject configurations this way.
 
----
-
-## 4.4. GameObject Lifetime (simplified)
+### GameObject Lifetime Events
    
 - You can react to a `GameObject`‘s lifetime
 - Using Unity Event functions
@@ -402,6 +554,11 @@ void Awake() {
 ```
    
 - They get executed automatically in this order:
+
+First time Loaded:
+```cs
+Awake();
+```
 
 First time Loaded and Enabled:
 ```cs
@@ -416,33 +573,30 @@ Update();
 LateUpdate();
 ```
 
-50x per second while enabled:
+50x (unless changed) per second while enabled:
 ```cs
 FixedUpdate();
 FixedUpdate();
 ```
 
-Everytime when Disabled:
+Every time when Disabled:
 ```cs
 OnDisable();
 ```
 
-Everytime when Enabled again:
+Every time when Enabled again:
 ```cs
 OnEnable();
 ```
 
 Once, when Unloading (through Destroying the GameObject, Changing the Scene or Quitting the Game):
 ```cs
-   OnDisable();
-   OnDestroy();
+   OnDisable(); // if enabled before
+   OnDestroy(); // if awoken before
 }
 ```
 
-
----
-
-## 4.5. Disabling GameObjects
+### Disabling GameObjects
 
 You can disable GameObjects:
 
@@ -462,24 +616,22 @@ Deactivate:
 gameObject.SetActive(false);
 ```
 
-This checks if the gameObject itself is marked to be active
-```cs
-Debug.Log(gameObject.activeself);
-```
-
-This checks if the gameObject is really enabled:
-- (because it could also be disabled indirectly, because it's parent is disabled)
-```cs
-Debug.Log(gameObject.activeInHierarchy);
-```
-
 Disabling `GameObjects` automatically disables that `GameObject's` children as well:
 
 <img width="369" alt="image" src="https://user-images.githubusercontent.com/7360266/139598301-1f67ec2e-68fe-438d-af00-7841c6024ec7.png">
 
----
+This checks if the gameObject itself is marked to be active
+```cs
+Debug.Log(gameObject.activeSelf);
+```
 
-## 4.6. Destroying GameObjects
+This checks if the gameObject is really enabled:
+- it could be `activeSelf: true`, but its parent is disabled
+```cs
+Debug.Log(gameObject.activeInHierarchy);
+```
+
+### Destroying GameObjects
 
 You can destroy GameObjects:
 
@@ -503,7 +655,7 @@ Destroying GameObjects automatically destroys that GameObject‘s children as we
 
 ---
 
-## 4.7. Instantiating Prefabs
+### Instantiating Prefabs
 
 You can instantiate Prefabs:
 
@@ -519,12 +671,12 @@ Through Code:
 public GameObject prefab;
 
 void Sample(GameObject gameObject) {
-   // instantiates the prefab as root game Object:
+   // instantiates the prefab with no parent
    Tnstantiate(prefab);
-   // instantiates the prefab as a child of the gameObject:
+   // instantiates the prefab as a child of the gameObject
    Instantiate(prefab, gameObject.transform);
    // instantiates the prefab at the given position and rotation:
-   Instantiate(prefab, new Vector3(1, 2), Quaternion.Euler(1, 2, 3));
+   Instantiate(prefab, new Vector3(1, 2, 0), Quaternion.Euler(1, 2, 3));
    
    // you can save a reference of the new instance to a variable:
    GameObject instance = Instantiate(prefab);
@@ -532,11 +684,13 @@ void Sample(GameObject gameObject) {
    instance.name = "Cool Name";
 }
 ```
-When Instantiating a Prefab, it becomes part of the currently active scene
+
+When Instantiating a Prefab, it becomes part of the currently active scene.
+- which means, if that scene is unloaded, the prefab instance will be destroyed as well
 
 ---
 
-## 4.8. (Un-)Loading Scenes
+### (Un-)Loading Scenes
 
 You can Load a Scene:
 
@@ -572,7 +726,7 @@ You can also clearly see, that it has been flagged through the Scene-View:
 
 <img width="305" alt="image" src="https://user-images.githubusercontent.com/7360266/139600948-cb461b19-c999-4c2a-8f4f-5e0aed69b7fb.png">
 
-
+#### Scene Load Sequence
 
 - When Loading a Scene
   - All Current Scenes Are Unloaded
@@ -592,7 +746,7 @@ Make sure, to put the Scene first (At Index 0), that you want to start the Game 
 
 ---
 
-## 4.9. Quitting the Game
+### Quitting the Game
 
 You Can Quit the Game:
 

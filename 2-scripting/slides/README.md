@@ -224,6 +224,42 @@ public class NewBehaviourScript : Monobehaviour {
 }
 ```
 
+
+### 2.7.1 Overview
+
+Abbreviations:
+- GO: GameObject
+- MB: MonoBehaviour
+
+Happens when a Script become Active:
+
+|  Method |     Condition             |Frequency|Priority|
+|---------|---------------------------|---------|--------|
+|  Awake  |       GO Active           |  ONCE   |    1   |
+|  Start  |   GO Active & MB Enabled  |  ONCE   |    3   |
+|OnEnable |   GO Active & MB Enabled  |RECURRING|    2   |
+
+Happens when a Script becomes inactive:
+
+|  Method |     Condition             |Frequency|Priority|
+|---------|---------------------------|---------|--------|
+|OnDisable| GO Inactive | MB Disabled |RECURRING|    1   |
+|OnDestroy| GO Destroyed & MB Started |  ONCE   |    2   |
+
+Happens once per Frame:
+
+|   Method  |     Condition             |Frequency|Priority|
+|-----------|---------------------------|---------|--------|
+| Update    |  GO Active & MB Enabled   |RECURRING|    1   |
+| LateUpdate|  GO Active & MB Enabled   |RECURRING|    2   |
+
+Happens only when `fixedDeltaTime` has passed.
+- happens multiple times, if more than 1x `fixedDeltaTime` has passed.
+
+|   Method  |     Condition             |Frequency|Priority|
+|-----------|---------------------------|---------|--------|
+|FixedUpdate|  GO Active & MB Enabled   |RECURRING|    1   |
+
 ### 2.8. Collision (3D)
 
 - These three functions are called for collisions for Objects with 3D-Colliders
