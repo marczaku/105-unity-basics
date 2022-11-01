@@ -287,20 +287,18 @@ And referenced through their File ID
 
 <img width="308" alt="image" src="https://user-images.githubusercontent.com/7360266/199338743-0fb3b2fd-ca31-4a05-8b9b-906d2a96e7ab.png">
 
+### Functions of UnityEngine.Object
 
----
+UnityEngine.Object is not very useful by itself:
 
-## 3. unityengine.object - 2
-- UnityEngine.Object is not very useful by itself
 <img width="389" alt="image" src="https://user-images.githubusercontent.com/7360266/139946991-503a814e-62fa-416c-9218-e3ab6dd06f91.png">
 
-- It contains basic logic for resource management by Unity (`Destroy`, `Instantiate`, ...)
-- It has a `name`
+It contains some basic static Methods for resource management by Unity (`Destroy`, `Instantiate`, ...)
+- It has a `name` 
+  - (and `hideFlags` for the Editor)
 - The Equality Operator `==` has been overloaded to check, if a `UnityEngine.Object` was destroyed
 
----
-
-## 4. Object and Null
+### Null Comparison
 
 Here, we have a class, that inherits from `UnityEngine.Object`:
 
@@ -332,7 +330,7 @@ Usually, it should be enough, to assign `null` to `newItem` and the GarbageColle
 newItem = null;
 ```
 
-In reality, though, any class inheriting from `UnityEngine.Object` needs to be explicitly destroyed using `Object.Destroy`, though:
+In reality, though, any class inheriting from `UnityEngine.Object` needs to be explicitly destroyed using `Object.Destroy`.
 
 ```cs
 Destroy(newItem);
@@ -370,227 +368,321 @@ And here, it will not instantiate a new Item, even though the old one has been d
 newItem ??= Instantiate(this.item);
 ```
 
----
+## Object Lifetime
 
-## 5. Object Lifetime
-
-Method | Function | C# | C++
------- | -------- | -- | ---
-ObjectFactory.CreateInstance | A new instance of the Object is created | A new instance of the class is created | A C++ Object with instanceId and Pointer is Created
-Instantiate | An existing Object gets cloned | New instance of the class + copy values | A C++ Object with instanceId and Pointer is Created
-Destroy | An existing Object gets destroyed | Nothing happens | The C++ Object gets destroyed, the InstanceId and Pointer are Freed
-= null | The reference to the C# class gets lost | The Garbage Collector cleans up the class | Nothing happens
-
+### `ObjectFactory.CreateInstance`
 
 <img width="440" alt="image" src="https://user-images.githubusercontent.com/7360266/139948820-231e1e5c-e170-43bb-8b0d-6001d53230b0.png">
-<sup>Living Object C#</sup>
+
+Used to create a new instance of `UnityEngine.Object`
+- C#: A new instance of the class is created
+- C++: A C++ Object with instanceId and Pointer is Created
 
 <img width="418" alt="image" src="https://user-images.githubusercontent.com/7360266/139951820-5ebe602b-3bd6-4257-bdbb-88e1aa97596c.png">
 
-<sup>== null ? FALSE</sup>
-<p></p>
+### `Instantiate`
+
+<img width="440" alt="image" src="https://user-images.githubusercontent.com/7360266/139948820-231e1e5c-e170-43bb-8b0d-6001d53230b0.png">
+
+An existing Object gets cloned
+- C#: New instance of the class + copy values
+- C++: A C++ Object with instanceId and Pointer is Created
+
+<img width="418" alt="image" src="https://user-images.githubusercontent.com/7360266/139951820-5ebe602b-3bd6-4257-bdbb-88e1aa97596c.png">
+
+### `Destroy`
+
 <img width="436" alt="image" src="https://user-images.githubusercontent.com/7360266/139948936-92a408a5-1276-446a-87b1-a6390c8eef18.png">
-<sup>Destroyed Object C#</sup>
+
+An existing Object gets destroyed
+- C#: --
+- C++: The C++ Object gets destroyed, the InstanceId and Pointer are Freed
+
 <img width="409" alt="image" src="https://user-images.githubusercontent.com/7360266/139948970-c1e273f1-e0c6-4fb1-8f42-b673fa5c249b.png">
-<sup>== null ? TRUE</sup>
+
+### Assigning `null`
 
 <img width="157" alt="image" src="https://user-images.githubusercontent.com/7360266/140583902-70057ca9-12ed-4344-a42a-440380910e47.png">
+
+The reference to the C# class is lost
+- C#: The Garbage Collector cleans up the class
+- C++: --
 
 <img width="446" alt="image" src="https://user-images.githubusercontent.com/7360266/140583961-95e70077-f68f-41cb-917c-8e4b8830c6b6.png">
 
 
+## `UnityEngine.Object` useless?
+
+> Unity has a c++ engine component, and a c# scripting side. Everything that is a UnityEngine.Object needs to exist on both the c++ and the c# side for the engine to work with them.
+> 
+> If your MyClass derives from `UnityEngine.Object`, 
+> 
+> If you use your own constructor, the c++ side will not be informed of the thing being created, which will cause problems. The `==` operator has been `overriden` for `UnityEngine.Object`, and checks if the `object` exists on the c++ side when you compare with `null`. If it doesn't, `x == null` returns true even if `x is not null`.
+> 
+> `UnityEngine.Object` should no be derived from by users. But, since the engine internally needs to inherit from it, and we want to be able to reference a `UnityEngine.Object` by it's type, it can't be `sealed` or `internal`. If the C# language allowed for a class to be inheritable only from within it's own assembly, `UnityEngine.Object` would have that setting.
+
 ---
 
-## 7. UnityEngine.Object useless?
-
-![image](https://user-images.githubusercontent.com/7360266/139949199-615c38ef-1e20-4157-a730-59eb9cda47b0.png)
-
-<img width="321" alt="Screenshot 2021-11-02 at 22 10 30" src="https://user-images.githubusercontent.com/7360266/139952154-b091ce27-6eff-4e3e-9d53-f9157fd43ca0.png">
-
-- UnityEngine.Object by Itself is a useless class, though!
-- It contains some basic Logic like
-  - Drag & Drop
-  - InstanceID & C++ Pointer
-  - Name
----
-
-## 8. UnityEngine.Object Inheritors
+## `UnityEngine.Object` Inheritors
 
 <img width="339" alt="Screenshot 2021-11-02 at 21 48 27" src="https://user-images.githubusercontent.com/7360266/139949437-784f552e-ea2d-4aab-b2e8-06948b7b0169.png">
 
-- Many Assets Inherit from UnityEngine.Object Though!
-- And have custom Unity C# and C++ Code to work
-  - SceneAsset
-  - Texture
-  - GameObject
-  - …
+Many Assets Inherit from `UnityEngine.Object` directly:
+
+```cs
+public class GameObject : Object {}
+```
+
+```cs
+public class Texture : Object {}
+```
+
+```cs
+public class SceneAsset : Object {}
+```
+
+But they require Custom Code (C++ and C#) to be provided by Unity to be usable.
 - They can all exist as an Asset in the ProjectView
 
----
+## `MonoBehaviour`
 
-## 9. MonoBehaviour
+A `Component` is something that can be attached to a `GameObject`
 
-<img width="349" alt="Screenshot 2021-11-02 at 21 49 27" src="https://user-images.githubusercontent.com/7360266/139949594-9b10c98e-9527-4ee4-8d7d-1aa201e6fb6c.png">
+```cs
+public class Component : Object{}
+```
 
-- A Component is something that can be attached to a GameObject
-- A Behaviour is a Component that can be enabled and disabled
-- A MonoBehaviour is the base class for all our C# Scripts and brings some features like Invoke and Coroutines
+A `Behaviour` is a `Component` that can be enabled and disabled
 
----
+```cs
+public class Behaviour : Component{}
+```
 
-## 10. Monobehaviour - 2
+A `MonoBehaviour` is the base class for all our C# Scripts and brings some features like Invoke and Coroutines
+
+```cs
+public class MonoBehaviour : Behaviour{}
+```
+
+We can not inherit from `Component` or `Behaviour` Directly
+- Because only `MonoBehaviours` can be serialized properly, referencing our Scripts
+- Without having to write C++ Code
 
 <img width="633" alt="image" src="https://user-images.githubusercontent.com/7360266/139949713-2b645efb-29c7-453b-ab60-397f4d4162db.png">
 
-<img width="330" alt="image" src="https://user-images.githubusercontent.com/7360266/139949758-c335513a-aaab-4d22-8d18-9018e6e67e19.png">
+Unity Components like `Transform` inherit from `Component` or `Behaviour`
+- To improve performance
+- By avoiding the extra `MonoBehaviour` Overhead
+
+```cs
+public class Transform : Component {}
+```
 
 <img width="223" alt="image" src="https://user-images.githubusercontent.com/7360266/139949771-247ba7a6-3be0-4fa1-b7e7-432a4a4b8742.png">
 
-- We can not inherit from Component or Behaviour Directly
-- Because only MonoBehaviours can be serialized properly, referencing our Scripts
-- Without having to write C++ Code
+## Overview: Our options so far
 
-- Unity Components like Transform inherit from Component or Behaviour
-- To improve performance
-- By avoiding the extra MonoBehaviour Overhead
-
----
-
-## 11. Our options so far
+Scenes & Assets: Are part of a project
 
 <img width="227" alt="image" src="https://user-images.githubusercontent.com/7360266/139949951-314b40e3-fba5-4042-a141-d65d2b297179.png">
 
+GameObjects: Are part of a scene or prefab
+
 <img width="175" alt="image" src="https://user-images.githubusercontent.com/7360266/139949956-3f21f2a4-f9d1-44e3-a18f-b1456d7fe19a.png">
+
+Components: Are part of GameObjects
 
 <img width="393" alt="image" src="https://user-images.githubusercontent.com/7360266/139949965-bc91fd7a-def4-452a-bbf2-0f2140d3b593.png">
 
-<img width="392" alt="image" src="https://user-images.githubusercontent.com/7360266/139949979-59085fd3-110f-480e-8694-433d41b92767.png">
-
-- Scenes & Assets: Are part of a project
-- GameObjects: Are part of a scene or prefab
-- Components: Are part of GameObjects
 - Custom Class: 
   - Can be used by components
   - Can be used by code using new()
   - Can be serialized, if [System.Serializable]
-- Custom MonoBehaviour:
+- Custom `MonoBehaviour`:
   - Can be used like any other component (Add to GameObject in Editor or through Script)- 
 
----
+<img width="392" alt="image" src="https://user-images.githubusercontent.com/7360266/139949979-59085fd3-110f-480e-8694-433d41b92767.png">
 
-## 12. Things we can / can not do
+## What we can Customize
 
-- Scenes: NO custom scenes can be created
-- Assets: ??? <=
-- GameObjects: NO custom gameObjects can be created
-- Components: We can create custom MonoBehaviours
-- Classes: We can create custom classes
-- Editors: TBD
-- EditorWindows: TBD
+|Class|Customization|
+|-----|-------------|
+|Scene|---|
+|Asset|Coming Next|
+|GameObjects|---|
+|Component|Inherit from `MonoBehaviour`|
+|Class|Create Class, make it `[Serializable]`|
+|Editor|Coming Soon|
+|EditorWindow|Coming Soon|
 
----
+## Scriptable Objects
 
-## 13. Scriptable Objects
+Make a class Inherit from `UnityEngine.ScriptableObject`
+- Give it a `[CreateAssetMenu]` Attribute
 
 ```cs
 using UnityEngine;
+
 [CreateAssetMenu]
 public class Item : ScriptableObject {
-   public int price;
-   }
-   ```
+  public int price;
+}
+```
+
+You can now rightclick wihin Project View and Create a new Instance of that Class
+
 ![image](https://user-images.githubusercontent.com/7360266/139950409-51048af1-97c6-4e1d-88ec-4879a5dcf47b.png)
+
+The Instance will exist as an Asset in your Project View
 
 <img width="219" alt="image" src="https://user-images.githubusercontent.com/7360266/139950413-b8f50c20-891a-4e98-95aa-aa7fd78c06ca.png">
 
+You can select it to view and edit its values in the Inspector
+
 <img width="390" alt="image" src="https://user-images.githubusercontent.com/7360266/139950419-0b2052e7-5798-4984-99bc-5b04eade1582.png">
 
-- Make a class Inherit from `UnityEngine.ScriptableObject`
-- Give it a `[CreateAssetMenu]` Attribute
-- You can now rightclick wihin Project View and Create a new Instance of that Class
-- The Instance will exist as an Asset in your Project View
-- You can select it to view and edit its values in the Inspector
-
----
-
-## 14. Scriptable Object Serialization
+## Scriptable Object Serialization
+A new `.asset` File is created
+- As well as a matching `.asset.meta` File
 
 <img width="294" alt="image" src="https://user-images.githubusercontent.com/7360266/139950534-fe37612d-b25c-4d2e-adc8-052bf88a6fb8.png">
 
-![image](https://user-images.githubusercontent.com/7360266/139950541-df3e3326-eb40-4927-916f-5a866f3b4b86.png)
-
-- A new .asset File is created
-- As well as a matching .meta File
-- The .asset File contains the serialized instance of your class
+The `.asset` File contains the serialized instance of your class
 - Does this remind you of something?
 
----
+![image](https://user-images.githubusercontent.com/7360266/139950541-df3e3326-eb40-4927-916f-5a866f3b4b86.png)
 
-## 15. Scriptable Object == MonoBehaviour??
-
-<img width="277" alt="image" src="https://user-images.githubusercontent.com/7360266/139950623-a671c302-e513-4298-bfc2-02e340d289b0.png">
+It looks exactly like a MonoBehaviour that's serialized as part of a Prefab or Scene:
 
 ![image](https://user-images.githubusercontent.com/7360266/139950631-ad13f917-50a3-4886-b331-a8d946600dd1.png)
 
-<img width="293" alt="image" src="https://user-images.githubusercontent.com/7360266/139950644-202cb4f4-5385-4979-8463-f2892d82ec82.png">
+## What‘s the difference to MonoBehaviour?
 
-![image](https://user-images.githubusercontent.com/7360266/139950661-7773f5df-d469-4caa-aa92-f56af0858c15.png)
-
-- Kind of the same thing as a MonoBehaviour saved in a Prefab / Scene
-
----
-
-## 16. What‘s the difference?
+A Scriptable Object does not need a `GameObject` to be attached to
 
 <img width="392" alt="image" src="https://user-images.githubusercontent.com/7360266/139950833-464590c0-e4be-4e28-a491-b0c217201e16.png">
 
-<img width="393" alt="image" src="https://user-images.githubusercontent.com/7360266/139950845-118319ea-4097-4e63-b36e-5e0f80d23815.png">
-
-- A Scriptable Object does not need a `GameObject` to be attached to
-- And it cannot be attached to a `GameObject`, even if you wanted to
-- It has therefore less overhead.
+And it cannot be attached to a `GameObject`, even if you wanted to
+- It therefore has less overhead.
 - That‘s it!
 
----
+<img width="393" alt="image" src="https://user-images.githubusercontent.com/7360266/139950845-118319ea-4097-4e63-b36e-5e0f80d23815.png">
 
-## 17. Why not use a class instead?
+## Why not use a Prefab instead?
 
-<img width="393" alt="image" src="https://user-images.githubusercontent.com/7360266/139950911-eaf6611f-58a9-4767-ad9b-7f89c0a20bc3.png">
+Valid question! Only reason:
+- Less overhead:
+  - No `GameObject`
+  - No `Transform`
+- People can't misuse it:
+  - Cannot be instantiated into a Scene
+  - No other Components can be added
+  - Cannot be disabled
+- Clear Intention!
+  - It is always an Asset
+  - A GameObject can be in a Scene or a Prefab
 
-- Classes have even slightly less overhead than ScriptableObjects!
-- Classes can be part of MonoBehaviours
-- But Classes can not be shared between multiple MonoBehaviours
-- ScriptableObjects can be created as an asset in the project view
+## Why not use a Plain Class instead?
+
+Classes have even slightly less overhead than ScriptableObjects!
+
+```cs
+[Serializable]
+public class Item {
+  public int price;
+}
+```
+
+Classes can be part of MonoBehaviours
+
+```cs
+public class TreasureBox : MonoBehaviour {
+  public Item item;
+}
+```
+
+But class instances can not be shared between multiple MonoBehaviours
+
+ScriptableObjects can be created as an asset in the project view
 - And then drag‘n‘dropped onto multiple MonoBehaviour-Fields
 
----
+There is the option of serializing the classes manually (e.g. using Json or Yaml Serializer)
+- And then referencing the TextAssets in your Game
+- And then deserializing the TextAssets during Runtime
 
-## 18. Common use cases
+But that's a lot of work just to replicate what Unity already provides for us
+- Also, it would add the overhead that we just saved back to our Game
+
+## Common use cases
+
+### Configuration
+
+You can create a simple Immutable Scriptable Object class that you use for configuration.
+
+Your Designer can now create multiple instances of this class for different types, e.g.
+
+The lazy way:
+
+```cs
+public class CookieProducer {
+  public int production;
+  public float productionRate;
+  public Color color;
+  public Sprite image;
+}
+```
+
+The clean, immutable way:
+
+```cs
+public class CookieProducer {
+
+  public int Production => production;
+  public float ProductionRate => productionRate;
+  public float Color => color;
+  public Sprite Image => image;
+
+  [SerializeField] private int production;
+  [SerializeField] private float productionRate;
+  [SerializeField] private Color color;
+  [SerializeField] private Sprite image;
+}
+```
+
+You can now reference these in your Game where ever you want to use a Cookie Producer in your Game.
+
+### Sharing Variables
+
+You can share Variables across multiple Objects or even multiple Scenes!
 
 <img width="527" alt="image" src="https://user-images.githubusercontent.com/7360266/139951199-ec871a16-d1bc-4317-aece-11ab2d393709.png">
 
-- Sharing Variables across Objects / Scenes
 - PlayerPrefab Updates PlayerHP ScriptableObject Instance
-- Other Elements, like UI and Enemies can reference the same Instance
+- Music System checks PlayerHP SO and changes music to sound dramatic when HP low
+- User Interface checks PlayerHP SO and updates the HealthBar and Label
+- Enemy AI checks PlayerHP SO and becomes less shy when the HP is low
 
-. . .
+### Sharing Events across Objects / Scenes
 
 <img width="571" alt="image" src="https://user-images.githubusercontent.com/7360266/140585673-895fb16a-ba1a-44ab-b601-988488733319.png">
 
 
-- Sharing Events across Objects / Scenes
 - PlayerPrefab Invokes OnPlayerDied ScriptableObject Instance
-- Other Elements, like UI and Enemies can subscript to the same instance and receive Callbacks
+- Music System subscribed to the Event and plays Sad Game Over Music
+- Game Over UI subscribed to the Event and displays itself on the screen
+- Enemy subscribed to the Event and starts dancing and celebrating
 
-. . .
+### Sharing Code across Objects / Scenes
 
-- Making Systems available across Objects / Scenes
+> Scriptable Objects don’t have to be just data. Take any system you implement in a MonoBehaviour and see if you can move the implementation into a ScriptableObject instead. Instead of having an InventoryManager on a DontDestroyOnLoad MonoBehaviour, try putting it on a ScriptableObject.
+> 
+> Since it is not tied to the scene, it does not have a Transform and does not get the Update functions but it will maintain state between scene loads without any special initialization. Instead of a singleton, use a public reference to your inventory system object when you need a script to access the inventory. This makes it easy to swap in a test inventory or a tutorial inventory than if you were using a singleton.
+> 
+> Here you can imagine a Player script taking a reference to the Inventory system. When the player spawns, it can ask the Inventory for all owned objects and spawn any equipment. The equip UI can also reference the Inventory and loop through the items to determine what to draw. 
 
-<img width="832" alt="image" src="https://user-images.githubusercontent.com/7360266/139951335-9e3b2a56-3d3e-4c28-8d68-f26d587915ff.png">
+## Amazing Features For Free
 
----
-
-## 19. Features for free
+Scriptable Objects come with a lot of features for free:
 
 <img width="258" alt="Screenshot 2021-11-02 at 22 04 06" src="https://user-images.githubusercontent.com/7360266/139951424-37793b0d-e664-494c-a4f1-f8f3303a99f3.png">
 
@@ -599,5 +691,3 @@ public class Item : ScriptableObject {
 - Inspector: Edit, Toggle, TextField, Slider, Lists, Color Pickers, …
 - Referencing: Meta-File-ID System for safe referencing, even when renamed
 - Drag & Drop utility
-
----
