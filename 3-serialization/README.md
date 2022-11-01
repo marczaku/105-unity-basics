@@ -2,6 +2,12 @@
 
 ## 3. - Serialization
 
+### Goal
+
+We want to have the ability to leave and enter a car. Therefore, we will:
+- Create a Car GameObject in the Scene.
+- Add a Script to that Car.
+
 ### Slides
 Need Help? [Here's The Slides!](slides/README.md#3-serialization)
 
@@ -70,7 +76,7 @@ void Update() {
 ### Slides
 Need Help? [Here's The Slides!](slides/README.md#4-gameobject-lifetime)
 
-## Spawn a Car
+### Spawn a Car
 
 Add an empty ParkingSpot to the Game:\
 Create a GameObject with some Visual (2D or 3D) for the Parking Spot. Name it `Parking Spot`\
@@ -105,7 +111,7 @@ Make the ParkingSpot into a Prefab.\
 Make ParkingSpot (Full) a Prefab Variant of ParkingSpot.\
 It's always best to have Prefab Templates available for your Game's Elements :)
 
-## Add a Main Menu
+### Add a Main Menu
 - Create a new Scene named `MainMenu`
 - Open that Scene
 - Add a Button with the Label `Start Game`
@@ -115,7 +121,7 @@ It's always best to have Prefab Templates available for your Game's Elements :)
   - Call that Method in the Button's OnClick-Event (using the Inspector)
 Start the Game and Validate, that after clicking `Start Game`, your Main Menu disappears and instead you see your Game.
 
-## Add a Game Restart Button
+### Add a Game Restart Button
 - In your Game-Scene, add a "Main Menu" Button to the Top right of the Screen.
 - If clicked, Activate another GameObject named `MainMenu` that contains two Buttons as Children:
   - Retart Game Button, which will also call `StartGame`-Script's `LoadGame`-Method.
@@ -123,6 +129,6 @@ Start the Game and Validate, that after clicking `Start Game`, your Main Menu di
 Test, that you can restart the game by opening the Main Menu and then clicking Restart Game.\
 - BONUS: Make it possible to open and close the MainMenu using the Escape-Button, too.
 
-## BONUS: Respawn a Car
+### BONUS: Respawn a Car
 - Implement in your `ParkingSpot`:
 - If there has been no car on this spot for more than 10 seconds, a new Car spawns.

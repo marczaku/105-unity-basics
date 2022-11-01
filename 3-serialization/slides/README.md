@@ -1,6 +1,6 @@
 # Slides 3 - Scripting
 
-## 3. Serialization
+# 3. Serialization
 
 ## What's Serialization?
 
@@ -474,9 +474,9 @@ And they are saved in the Scene-File.
 
 ---
 
-## 4. GameObject Lifetime
+# 4. GameObject Lifetime
 
-### Part of a Scene
+## Part of a Scene
 
 `GameObjects` can be part of a scene
 - They exist as a Template in the editor
@@ -495,7 +495,7 @@ They are saved in the .unity scene file
 You should use scene to create separate levels / menus of your game which can be loaded one by one or additively.
 
 
-#### (Un-)Loading Scenes
+### (Un-)Loading Scenes
 
 You can Load a Scene:
 
@@ -531,7 +531,7 @@ You can also clearly see, that it has been flagged through the Scene-View:
 
 <img width="305" alt="image" src="https://user-images.githubusercontent.com/7360266/139600948-cb461b19-c999-4c2a-8f4f-5e0aed69b7fb.png">
 
-#### Build Settings
+### Build Settings
 
 All Scenes that you want to load within your Game, need to be added to the Game's Build Settings first:
 
@@ -540,7 +540,7 @@ All Scenes that you want to load within your Game, need to be added to the Game'
 Access the Build Settings through the Menu File > Build Settings and Drag and Drop all Scenes that you need for your Game here.\
 Make sure, to put the Scene first (At Index 0), that you want to start the Game with.
 
-### Part of a Prefab
+## Part of a Prefab
 
 `GameObjects` can be part of a prefab
 - They exist as a Template in the prefab edit mode
@@ -570,7 +570,7 @@ You should use prefabs when you want to instantiate objects during runtime. You 
 - 100 times, if you want to spawn e.g. a hundred monsters
 
 
-#### Instantiating Prefabs
+### Instantiating Prefabs
 
 You can instantiate Prefabs:
 
@@ -603,7 +603,7 @@ void Sample(GameObject gameObject) {
 When Instantiating a Prefab, it becomes part of the currently active scene.
 - which means, if that scene is unloaded, the prefab instance will be destroyed as well
 
-### Creating GameObjects
+## Creating GameObjects
 
 `GameObjects` can be created through a script
 - START: when your code gets executed
@@ -622,7 +622,7 @@ void CreateView() {
 
 This is not a recommended way, since designers can't contribute to GameObject configurations this way.
 
-### Destroying GameObjects
+## Destroying GameObjects
 
 You can destroy GameObjects:
 
@@ -644,7 +644,7 @@ DestroyImmediate(gameObject);
    
 Destroying GameObjects automatically destroys that GameObject‘s children as well!
 
-### GameObject Lifetime Events
+## GameObject Lifetime Events
    
 - You can react to a `GameObject`‘s lifetime
 - Using Unity Event functions
@@ -698,7 +698,7 @@ Once, when Unloading (through Destroying the GameObject, Changing the Scene or Q
 }
 ```
 
-### Disabling GameObjects
+## Disabling GameObjects
 
 You can disable GameObjects:
 
@@ -733,7 +733,7 @@ This checks if the gameObject is really enabled:
 Debug.Log(gameObject.activeInHierarchy);
 ```
 
-### Quitting the Game
+## Quitting the Game
 
 You Can Quit the Game:
 

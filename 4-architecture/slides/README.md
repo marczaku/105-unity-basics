@@ -1,4 +1,6 @@
-# 009 Communicating between GameObjects
+# Slides 4 - Architecture
+
+# 5. Connecting GameObjects
 
 As our Game grows, our Components need to be able to interact...
 - The Mobs in our Tower Defense need to find towers.
@@ -8,7 +10,7 @@ As our Game grows, our Components need to be able to interact...
 
 To enable this communication between Components, Unity has a few Tools up its sleeve:
 
-## 1. Direct Referencing
+## Direct Referencing
 
 The most manual, yet most reliable way of accessing other Components is directly referencing them through a Field:
 
@@ -31,7 +33,7 @@ public class SuperThrusterInput : MonoBehaviour {
 
 ---
 
-## 2. GetComponent<T>()
+## GetComponent\<T\>()
 
 If a Component that you need is on the same GameObject as the Script that needs it, we can use `GetComponent<T>` to get it during Runtime:
 
@@ -65,9 +67,7 @@ public class Car : MonoBehaviour {
 
 => What, if it is not on the same GameObject?
 
----
-
-## 3. GetComponentInParent<T>()
+## GetComponentInParent\<T\>()
 
 If the Component is not on our own GameObject, or it is at least not guaranteed to be there, but we know that it is on one of our Parent GameObjects, we can use `GetComponentInParent`:
   
@@ -87,7 +87,7 @@ void OnCollisionEnter2D(Collision2D other) {
 
 ---
 
-## 4. GetComponentInChildren<T>()
+## GetComponentInChildren\<T\>()
 
 If the GameObject is not on one of the GameObject itself, but on one of its Children, you can use `GetComponentInChildren`:
   
@@ -104,9 +104,7 @@ void OnCollisionEnter2D(Collision2D other) {
 - This will look on the same `GameObject`, but also on all child `GameObjects` and their child `GameObjects` and so on…
 - And return the first component, that it finds
 
----
-
-## 5. GetComponents<T>()
+## GetComponents\<T\>()
 
 Sometimes one is not enough, but you just want them all:
 
@@ -132,9 +130,7 @@ void Start() {
   - `GetComponentsInParent` to get all on the same GameObject and its Parents
   - `GetComponentsInChildren` to get all on the same GameObject and its Children
 
----
-
-## 6. FindObjectOfType<T>()
+## FindObjectOfType\<T\>(bool)
   
 - This can be used to find the component ANYWHERE in the scene
 - Useful to find things like HUD, GameManager, Player, or other things you expect ONCE in the scene
@@ -145,12 +141,17 @@ void Start() {
   hud.playerName.text = this.name;
 }
 ```
+
 <img width="332" alt="image" src="https://user-images.githubusercontent.com/7360266/137979581-0a703ad6-bd43-4426-b57a-4689f7c5c876.png">
 
 
----
+If you pass in `true` as an argument for the Parameter `bool includeInactive`, the Script can even find scripts on disabled GameObjects!
+
+```cs
+Hud hud = FindObjectOfType<Hud>(true);
+```
   
-## 7. FindObjectsOfType<T>()
+## FindObjectsOfType\<T\>()
  
 - This can be used to find all components of one kind ANYWHERE in the scene
 - Useful to find things like all Enemies, all Traps, all Checkpoints, …
@@ -166,9 +167,35 @@ void BaitAllEnemies() {
   }
 }
 ```
----
+
+## Singleton
+
+Another way of connecting Scripts is using static references:
+
+```cs
+public class Game : MonoBehaviour {
+  public static Game Instance {get; private set;}
+
+  public int starsCollected;
+
+  void Awake() {
+    Instance = this;
+  }
+}
+```
+
+Other scripts can now access the class through the static Property:
+
+```cs
+public class Star : MonoBehaviour {
+  void OnTriggerEnter(Collider collider) {
+    Game.Instance.starsCollected++;
+    Destroy(gameObject);
+  }
+}
+```
   
-## 8. Bonus: SendMessage
+## Bonus: SendMessage
 
 SendMessage can be used whenever you want to send an Event / a Messsage to a GameObject, but you don't know, what Component exactly is supposed to receive it.
 
@@ -206,7 +233,9 @@ public class Trap : MonoBehaviour {
   - Imagine, there is a `Damage`-Message and you have `Health` and `Armor` Components that can receive the Message. Right now, they would both Receive the Message, so the `Armor` would not be able to "protect" the `Health`-Component.
   ---
 
-## 1. Classes
+# 6. Scriptable Objects
+
+## Serialized Classes
 
 Serializable Classes which are Fields of Components...
 
@@ -219,7 +248,7 @@ public class Level {
 ```
 
 ```cs
-public class Hero : NonoBehaviour {
+public class Hero : MonoBehaviour {
    public Level level;
 }
  ```
@@ -232,9 +261,9 @@ public class Hero : NonoBehaviour {
 
 ---
 
-## 2. UnityEngine.Object
+## Serialized UnityEngine.Object
 
-Classes inheriting from UnityEngine.Object...
+Classes inheriting from `UnityEngine.Object`...
 
 ```cs
 public class Item : UnityEngine.Object {
