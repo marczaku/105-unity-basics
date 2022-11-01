@@ -285,6 +285,8 @@ public class Enemy : MonoBehaviour {
 
 And referenced through their File ID
 
+<img width="308" alt="image" src="https://user-images.githubusercontent.com/7360266/199338743-0fb3b2fd-ca31-4a05-8b9b-906d2a96e7ab.png">
+
 
 ---
 
