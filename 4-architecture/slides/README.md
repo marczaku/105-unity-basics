@@ -23,10 +23,11 @@ public class SuperThrusterInput : MonoBehaviour {
 ```
 <img width="416" alt="image" src="https://user-images.githubusercontent.com/7360266/137977123-1ebdec44-ba01-42d9-bfc3-d9311cee4d3a.png">
 
-- **Pro:** All-round solution
-- **Contra:** Does not work for objects instantiated dynamically during run-time (like a new monster that spawned)
-- **Pro:** Can be set up specifically
-- **Contra:** Needs to be set up manually
+- Condition: Target is an Asset, or both Source and Target are part of the same Scene.
+- Pro: All-round solution
+- Pro: Can be set up specifically
+- Con: Does not work for objects instantiated dynamically during run-time (like a new monster that spawned)
+- Con: Needs to be set up manually
 
 ---
 
@@ -40,10 +41,27 @@ void BrakeCar() {
   GetComponent<Rigidbody2D>().velocity *= 0.95f;
 }
 ```
-- **Condition:** Component is on same GameObject
-- **Pro:** No configuration required
-- **Contra:** Costs some extra performance
-- **Pro:** Can react to changes during runtime
+- Condition: Component is on same GameObject
+- Pro: No configuration required
+- Pro: Can react to changes during runtime
+- Con: Costs some extra performance
+
+The little performance impact can be mitigated by caching the component after startup:
+
+```cs
+public class Car : MonoBehaviour {
+  private Rigidbody2d rigidBody2D;
+
+  void Awake() {
+    rigidBody2D = GetComponent<RigidBody2D>();
+  }
+
+  void BrakeCar() {
+    rigidBody2D.velocity *= 0.95f;
+  }
+}
+```
+
 
 => What, if it is not on the same GameObject?
 
