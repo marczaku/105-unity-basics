@@ -216,3 +216,295 @@ There's quite a few more components not covered in class, yet.
 - Check out the Unity Documentation for more infos
 
 ![image](https://user-images.githubusercontent.com/7360266/138224735-59fdc413-42d6-4081-9b55-ad94be7713fb.png)
+
+# 8. Reacting To Changes
+
+In this chapter, we look at how we can react to changes in our Game. e.g.
+- when the Player's health is below 10, tint the screen red
+- when all enemies are dead, the level is won
+- when all players are ready, the match is started
+
+## Condition
+
+All of above examples have some kind of condition:
+
+```cs
+if(player.health < 10){
+  // tint the screen red
+}
+```
+
+But they have that condition in a timed manner, so rather something like:
+
+```cs
+// disclaimer: THIS DOES NOT WORK
+when(player.health < 10){
+  // tint the screen red
+}
+```
+
+So, how can we implement the `when`?
+
+## Update (Brute Force)
+
+```cs
+public class Player : MonoBehaviour {
+  public int health;
+}
+```
+
+If you don't know, exactly, when a certain condition takes place, you can just check for the condition all the time. But not like this:
+
+```cs
+while(true){
+  if(player.health < 10){
+    // tint the screen red
+    break;
+  }
+}
+```
+
+Because above example would result in a deadlock. In which nothing else in the Game can be updated, since the program is stuck in this loop (unless you use Multi-Threading already)
+
+But usually, you have some kind of Game Loop. That one is called `Update` in Unity:
+
+```cs
+public class Hud : MonoBehaviour {
+  public GameObject redTint;
+  public Text healthLabel;
+  public Player player;
+
+  void Update() {
+    redTint.SetActive(player.health < 10);
+    healthLabel.text = player.health.ToString();
+  }
+}
+```
+
+PRO: Easy to Implement
+CON: Bad Performance (needs to check every frame)
+CON: Difficult to react to an Event (a change from one state to another)
+
+## Bottom-Up (Bad Architecture)
+
+Actually, there is a class that would know, when the Health changes. At least, if it uses Encapsulation:
+
+```cs
+public class Player : MonoBehaviour {
+  private int _health;
+
+  public int Health {
+    get => _health;
+    set => _health = value;
+  }
+}
+```
+
+Above class could be slightly adjusted to ensure that the HUD is only updated, when the player's health changes:
+
+```cs
+public class Player : MonoBehaviour {
+  private int _health;
+
+  public int Health {
+    get => _health;
+    set {
+      _health = value;
+      Hud hud = FindObjectOfType<Hud>();
+      hud.redTint.SetActive(value < 10);
+      hud.healthLabel.text = value.ToString();
+    }
+  }
+}
+```
+
+PRO: Easy to implement
+PRO: Good Performance
+CON: Bad architecture
+
+It should not be the Player class's responsibility to update the HUD, but the HUDs! It's bad architecture when the Player class needs to know about the exact existence of sprites and text labels in the UI. Every time the UI changes, the Player class needs to change as well.
+
+A Player could technically also be used in a game without a HUD.
+
+PRO: Great Performance
+CON: Bad Architecture
+
+## Bottom-Up (With abstraction)
+
+By providing Methods in the HUD, the classes could share their responsibilities a bit more cleanly:
+
+```cs
+public class Hud : MonoBehaviour {
+  [SerializeField] GameObject redTint;
+  [SerializeField] Text healthLabel;
+
+  public void OnPlayerHealthChanged(int newHealth) {
+    healthLabel.text = newHealth.ToString();
+    redTint.SetActive(newHealth < 10);
+  }
+}
+```
+
+The player class does not change as much this time:
+
+```cs
+public class Player : MonoBehaviour {
+  private int _health;
+
+  public int Health {
+    get => _health;
+    set {
+      _health = value;
+      Hud hud = FindObjectOfType<Hud>();
+      hud.OnPlayerHealthChanged(value);
+    }
+  }
+}
+```
+
+This improves the code a lot already. But the problem is still with the `Player` class having a direct dependency to the `Hud`. What if there is none in a certain Game Mode? Do you want `null` checks everywhere?
+
+PRO: Easy to implement, Good Performance
+PRO: Good separation of Concerns
+CON: Bad architecture
+
+## Event Listener
+
+The correct implementation would be by proving an `event` that can be subscribed to:
+
+```cs
+public class Player : MonoBehaviour {
+  private int _health;
+  public delegate void HealthChangedDelegate(int newValue);
+  public event HealthChangedDelegate HealthChanged;
+
+  public int Health {
+    get => _health;
+    set {
+      _health = value;
+      HealthChanged?.Invoke(value);
+    }
+  }
+}
+```
+
+Now, the `Hud` subscribes to the event that it requires:
+
+```cs
+public class Hud : MonoBehaviour {
+  [SerializeField] GameObject redTint;
+  [SerializeField] Text healthLabel;
+  Player player;
+
+  void Start(){
+    player = FindObjectOfType<Player>();
+    player.HealthChanged += OnPlayerHealthChanged;
+  }
+
+  void OnDestroy(){
+    player.HealthChanged -= OnPlayerHealthChanged;
+  }
+
+  void OnPlayerHealthChanged(int newHealth) {
+    healthLabel.text = newHealth.ToString();
+    redTint.SetActive(newHealth < 10);
+  }
+}
+```
+
+PRO: Good Performance
+PRO: Clean architecture
+CON: Small performance hit
+
+## Unity Events
+
+Unity Events are a Unity-specific implementation of Events which allows you to connect the Events in the Inspector instead of through code:
+
+```cs
+public class Player : MonoBehaviour {
+  private int _health;
+  public delegate void HealthChangedDelegate(int newValue);
+  public UnityEvent<int> HealthChanged;
+  public int Health {
+    get => _health;
+    set {
+      _health = value;
+      HealthChangedDelegate.Invoke(value);
+    }
+  }
+}
+```
+
+The Hud needs a public Method so it can be connected through the Inspector. This has the Amazing advantage that now, neither the `Player` class knows about the `Hud`, nor does the `Hud` know about the `Player` class.
+
+This means, that:
+- The HUD can be used to show the health of other things than the Player, e.g. enemy players when watching through Spectator Mode or AIs when watching a simulated match
+- The Player can be used in combination with any kind of Hud (or without)
+
+```cs
+public class Hud : MonoBehaviour {
+  [SerializeField] GameObject redTint;
+  [SerializeField] Text healthLabel;
+
+  public void OnPlayerHealthChanged(int newHealth) {
+    healthLabel.text = newHealth.ToString();
+    redTint.SetActive(newHealth < 10);
+  }
+}
+```
+
+You can still also connect the listener through code, if you like, e.g. if you don't want your Designer to need to make the connection manually, or if you want to connect the Event during Runtime:
+
+```cs
+public class Hud : MonoBehaviour {
+  [SerializeField] GameObject redTint;
+  [SerializeField] Text healthLabel;
+  Player player;
+
+  void Start(){
+    player = FindObjectOfType<Player>();
+    player.HealthChanged.AddListener(OnPlayerHealthChanged);
+  }
+
+  void OnDestroy(){
+    player.HealthChanged.RemoveListener(OnPlayerHealthChanged);
+  }
+
+  public void OnPlayerHealthChanged(int newHealth) {
+    healthLabel.text = newHealth.ToString();
+    redTint.SetActive(newHealth < 10);
+  }
+}
+```
+
+Above code won't make your Delegate show up in the inspector, though, which can be quite confusing. You can fix this by using:
+
+```cs
+public class Hud : MonoBehaviour {
+  [SerializeField] GameObject redTint;
+  [SerializeField] Text healthLabel;
+  Player player;
+
+  void Start(){
+    player = FindObjectOfType<Player>();
+    #if UNITY_EDITOR
+    UnityEventTools.AddPersistentListener(player.player.HealthChanged, OnPlayerHealthChanged);
+    #else
+    player.HealthChanged.AddListener(OnPlayerHealthChanged);
+    #endif
+  }
+
+  void OnDestroy(){
+    #if UNITY_EDITOR
+    UnityEventTools.RemovePersistentListener(player.player.HealthChanged, OnPlayerHealthChanged);
+    #else
+    player.HealthChanged.RemoveListener(OnPlayerHealthChanged);
+    #endif
+  }
+
+  public void OnPlayerHealthChanged(int newHealth) {
+    healthLabel.text = newHealth.ToString();
+    redTint.SetActive(newHealth < 10);
+  }
+}
+```
