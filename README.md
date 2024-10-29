@@ -1,8 +1,13 @@
 # 105 - Unity Basics
 
+Hi, my name is Marc and I am an enthusiastic Software Developer and Lecturer.\
+A lot of ⏱️ time and many years of iteration went into the preparation of this class material.\
+Please Leave a ⭐️ on this repository if you found this course helpful!\
+Feel free to open Issues for 💡 Feedback as well!
+
 ## Preclaimer
 
-Build the technical foundation needed for Programming in Unity. We will take a look at the Editor GUI and how we can write Code that we can use within Unity. We will also learn, how Unity's serialization works and how we can utilize it to store the information that we need to store.
+Build technical foundation needed for Programming in Unity. We will take a look at the Editor GUI and how we can write Code that we can use within Unity. We will also learn, how Unity's serialization works and how we can utilize it to store the information that we need to store.
 
 ## Introduction
 
