@@ -5,6 +5,8 @@ A lot of ⏱️ time and many years of iteration went into the preparation of th
 Please Leave a ⭐️ on this repository if you found this course helpful!\
 Feel free to open Issues for 💡 Feedback as well!
 
+This material is available for free under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en). Check the `LICENSE` file on this repository for details.
+
 ## Preclaimer
 
 Build technical foundation needed for Programming in Unity. We will take a look at the Editor GUI and how we can write Code that we can use within Unity. We will also learn, how Unity's serialization works and how we can utilize it to store the information that we need to store.
